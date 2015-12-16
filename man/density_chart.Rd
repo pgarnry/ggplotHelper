@@ -2,11 +2,11 @@
 % Please edit documentation in R/density-chart.R
 \name{density_chart}
 \alias{density_chart}
-\title{Function for plotting beautiful barcharts in ggplot}
+\title{Create density chart}
 \usage{
 density_chart(df, x, group = NULL, title = NULL, y.title = NULL,
   x.title = NULL, transparency = 0.3, min.lim = NULL, max.lim = NULL,
-  vline = FALSE, ...)
+  vline = FALSE, vline.custom = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -24,6 +24,16 @@ density_chart(df, x, group = NULL, title = NULL, y.title = NULL,
 \item{flip}{logical indicating whether barchart should be flipped or not}
 }
 \description{
-Function for plotting beautiful barcharts in ggplot
+This function is a convinient overlay for creating a beautiful density
+plot using ggplot2
+}
+\details{
+The ellipsis is used to pass on arguments to the grey_theme function. Primary
+use is to specify the legend.position to either "left", "right", "bottom" and "top"
+}
+\examples{
+This example shows the density of "mpg" grouped by "cyl" in the mtcars dataset.
+Vline is set to TRUE which draws vertical lines of the distribution median.
+density_chart(mtcars,"mpg","cyl",title="Miles per gallon",vline=TRUE)
 }
 
