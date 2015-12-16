@@ -36,7 +36,7 @@ grey_theme <- function(legend.position = "bottom") {
     theme(legend.margin = unit(0, "cm")) +
 
     # Set title and axis labels, and format these and tick marks
-    theme(plot.title = element_text(color = color.title, size = 20, vjust = 2)) +
+    theme(plot.title = element_text(color = color.title, size = 20, vjust = 2.5)) +
     theme(axis.text.x = element_text(size = 14, color = color.axis.text)) +
     theme(axis.text.y = element_text(size = 14, color = color.axis.text)) +
     theme(axis.title.x = element_text(size = 15, color = color.axis.title, vjust = 0.5)) +
