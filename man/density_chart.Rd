@@ -29,11 +29,12 @@ plot using ggplot2
 }
 \details{
 The ellipsis is used to pass on arguments to the grey_theme function. Primary
-use is to specify the legend.position to either "left", "right", "bottom" and "top"
+use is to specify the legend.position to either "left", "right", "bottom" and "top".
+
+Vline option specifies whether vertical lines showing the median of the distribution
+should be plotted.
 }
 \examples{
-This example shows the density of "mpg" grouped by "cyl" in the mtcars dataset.
-Vline is set to TRUE which draws vertical lines of the distribution median.
 density_chart(mtcars,"mpg","cyl",title="Miles per gallon",vline=TRUE)
 }
 
