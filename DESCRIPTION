@@ -1,0 +1,17 @@
+Package: ggplotHelper
+Title: Helper functions for great looking ggplots in R
+Description: Collection of styling and design function for easily plotting
+    ggplots
+Version: 0.0.1
+Date: 2015-12-16
+Maintainer: Peter Garnry <pg@saxobank.com>
+Author: Peter Garnry
+Depends:
+    R (>= 3.2.2),
+    ggplot2,
+    RColorBrewer,
+    scales,
+    grid
+License: GPL-3
+LazyData: true
+RoxygenNote: 5.0.0

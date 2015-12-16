@@ -1,0 +1,25 @@
+#' Function for plotting beautiful barcharts in ggplot
+#' @param df data frame containing data for plotting
+#' @param y character string specifying column name in df that should be y variable
+#' @param x character string specifying column name in df that should be x variable
+#' @param flip logical indicating whether barchart should be flipped or not
+#' @param title character string specifying chart title
+#' @param y.title character string specifying y-axis title
+#' @param x.title character string specifying x-axis title
+#' @export
+
+bar_chart <- function(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
+                      x.title = NULL) {
+
+  if(is.null(y)) stop("y should correspond to a variable name in input data frame")
+  if(is.null(x)) stop("x should correspond to a variable name in input data frame")
+
+  g <- ggplot(df, aes_string(y = y, x = x), environment = environment()) +
+    geom_bar(stat = "identity", fill = "dodgerblue3") +
+    grey_theme() +
+    labs(title = title, x = x.title, y = y.title) +
+    if(flip) {coord_flip()}
+
+  return(g)
+
+}
