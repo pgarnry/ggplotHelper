@@ -1,4 +1,7 @@
-#' Function for plotting beautiful barcharts in ggplot
+#' Create density chart
+#'
+#' This function is a convinient overlay for creating a beautiful density
+#' plot using ggplot2
 #' @param df data frame containing data for plotting
 #' @param y specifying column name in df that should be y variable
 #' @param x specifying column name in df that should be x variable
@@ -6,11 +9,19 @@
 #' @param title character string specifying chart title
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
+#' @details
+#' The ellipsis is used to pass on arguments to the grey_theme function. Primary
+#' use is to specify the legend.position to either "left", "right", "bottom" and "top"
+#' @examples
+#' This example shows the density of "mpg" grouped by "cyl" in the mtcars dataset.
+#' Vline is set to TRUE which draws vertical lines of the distribution median.
+#' density_chart(mtcars,"mpg","cyl",title="Miles per gallon",vline=TRUE)
 #' @export
 
 density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
                           x.title = NULL, transparency = .3,
-                          min.lim = NULL, max.lim = NULL, vline = FALSE, ...) {
+                          min.lim = NULL, max.lim = NULL, vline = FALSE,
+                          vline.custom = NULL, ...) {
 
   # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -52,8 +63,11 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
     scale_fill_manual(values = palette) +
     scale_x_continuous(limits=c(min.lim, max.lim)) + {
       if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed")
+    } + {
+      if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#fe9929", size = 1)
     } +
     labs(title = title, x = x.title, y = y.title) +
+    scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
 
   return(g)
