@@ -3,12 +3,16 @@
 #' This function is a convinient overlay for creating a beautiful density
 #' plot using ggplot2
 #' @param df data frame containing data for plotting
-#' @param y specifying column name in df that should be y variable
-#' @param x specifying column name in df that should be x variable
-#' @param flip logical indicating whether barchart should be flipped or not
+#' @param x character string specifying name of x variable in data frame
+#' @param group character string for grouping of x
 #' @param title character string specifying chart title
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
+#' @param transparency numeric setting the level of colour transparency
+#' @param min.lim numeric setting minimum limit on x-axis
+#' @param max.lim numeric setting maximum limit on x-axis
+#' @param vline logical value for drawing vertical lines for the distribution median of x
+#' @param vline.custom numeric setting position on vertical line not tied to the distribution of x
 #' @details
 #' The ellipsis is used to pass on arguments to the grey_theme function. Primary
 #' use is to specify the legend.position to either "left", "right", "bottom" and "top".
@@ -23,6 +27,9 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
                           x.title = NULL, transparency = .3,
                           min.lim = NULL, max.lim = NULL, vline = FALSE,
                           vline.custom = NULL, ...) {
+
+  # stop if input object is not a data.frame
+  if(!is.data.frame(df)) stop("Input object has to be data.frame")
 
   # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -67,7 +74,8 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
     } + {
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#fe9929", size = 1)
     } +
-    labs(title = title, x = x.title, y = y.title) +
+    ggtitle(title) +
+    labs(x = x.title, y = y.title) +
     scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
 
