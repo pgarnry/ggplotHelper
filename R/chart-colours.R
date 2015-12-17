@@ -4,7 +4,7 @@
 chart_colours <- function() {
 
   # colour palette in HEX
-  colours <- c("#2c7bb6", "#d7191c", "#018571")
+  colours <- c("#2c7bb6", "#d7191c", "#018571", "#e7298a")
 
   return(colours)
 
