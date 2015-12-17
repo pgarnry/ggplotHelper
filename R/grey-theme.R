@@ -43,6 +43,6 @@ grey_theme <- function(legend.position = "bottom") {
     theme(axis.title.y = element_text(size = 15, color = color.axis.title, vjust = 1.5)) +
 
     # Plot margins
-    theme(plot.margin = unit(c(1, 1, 0.2, 0.7), "cm"))
+    theme(plot.margin = unit(c(1, 1, 0.5, 0.7), "cm"))
 
 }
