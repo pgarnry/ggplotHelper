@@ -7,7 +7,8 @@ Date: 2015-12-16
 Maintainer: Peter Garnry <pg@saxobank.com>
 Author: Peter Garnry
 Depends:
-    R (>= 3.2.2),
+    R (>= 3.2.2)
+Imports:
     ggplot2,
     RColorBrewer,
     scales,
