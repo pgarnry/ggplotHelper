@@ -12,7 +12,8 @@ Imports:
     ggplot2,
     RColorBrewer,
     scales,
-    grid
+    grid,
+    zoo
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.0
