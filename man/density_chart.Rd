@@ -11,7 +11,9 @@ density_chart(df, x, group = NULL, title = NULL, y.title = NULL,
 \arguments{
 \item{df}{data frame containing data for plotting}
 
-\item{x}{specifying column name in df that should be x variable}
+\item{x}{character string specifying name of x variable in data frame}
+
+\item{group}{character string for grouping of x}
 
 \item{title}{character string specifying chart title}
 
@@ -19,9 +21,15 @@ density_chart(df, x, group = NULL, title = NULL, y.title = NULL,
 
 \item{x.title}{character string specifying x-axis title}
 
-\item{y}{specifying column name in df that should be y variable}
+\item{transparency}{numeric setting the level of colour transparency}
 
-\item{flip}{logical indicating whether barchart should be flipped or not}
+\item{min.lim}{numeric setting minimum limit on x-axis}
+
+\item{max.lim}{numeric setting maximum limit on x-axis}
+
+\item{vline}{logical value for drawing vertical lines for the distribution median of x}
+
+\item{vline.custom}{numeric setting position on vertical line not tied to the distribution of x}
 }
 \description{
 This function is a convinient overlay for creating a beautiful density

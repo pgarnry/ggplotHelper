@@ -4,7 +4,8 @@
 \alias{line_chart}
 \title{Create line chart}
 \usage{
-line_chart(df, y, x = NULL, group = NULL, ...)
+line_chart(df, y, x, group = NULL, title = NULL, x.title = NULL,
+  y.title = NULL, vline = NULL, hline = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -13,13 +14,15 @@ line_chart(df, y, x = NULL, group = NULL, ...)
 
 \item{x}{specifying column name in df that should be x variable}
 
-\item{flip}{logical indicating whether barchart should be flipped or not}
-
 \item{title}{character string specifying chart title}
+
+\item{x.title}{character string specifying x-axis title}
 
 \item{y.title}{character string specifying y-axis title}
 
-\item{x.title}{character string specifying x-axis title}
+\item{vline}{numeric specifying position of vertical line}
+
+\item{hline}{numeric specifying position of horizontal line}
 }
 \description{
 This function is a convinient overlay for creating a beautiful line
