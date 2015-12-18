@@ -21,7 +21,8 @@ bar_chart <- function(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
   g <- ggplot(df, aes_string(y = y, x = x), environment = environment()) +
     geom_bar(stat = "identity", fill = chart_colours()[1]) +
     grey_theme(...) +
-    labs(title = title, x = x.title, y = y.title) + {
+    ggtitle(title) +
+    labs(x = x.title, y = y.title) + {
       if(flip) coord_flip()
     }
 
