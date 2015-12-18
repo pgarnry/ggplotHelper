@@ -3,12 +3,13 @@
 #' (see details)
 #' @details The ggplot2 package comes with four options for setting the
 #' legend position - "left", "right", "bottom" and "top"
+#' @import ggplot2
 #' @export
 
 grey_theme <- function(legend.position = "bottom") {
 
   # Generate the colors for the chart procedurally with RColorBrewer
-  palette <- brewer.pal("Greys", n = 9)
+  palette <- RColorBrewer::brewer.pal("Greys", n = 9)
   color.background = palette[2]
   color.grid.major = palette[3]
   color.axis.text = palette[6]
@@ -16,9 +17,9 @@ grey_theme <- function(legend.position = "bottom") {
   color.title = palette[9]
 
   # Begin construction of chart
-  theme_bw()+#base_size = 12) +
+  theme_bw() +
 
-    # Set the entire chart region to a light gray color
+  # Set the entire chart region to a light gray color
     theme(panel.background = element_rect(fill = color.background, color = color.background)) +
     theme(plot.background = element_rect(fill = color.background, color = color.background)) +
     theme(panel.border = element_rect(color = color.background)) +
@@ -33,7 +34,7 @@ grey_theme <- function(legend.position = "bottom") {
     theme(legend.background = element_rect(fill = color.background)) +
     theme(legend.text = element_text(size = 14, color = color.axis.title)) +
     theme(legend.title = element_blank()) +
-    theme(legend.margin = unit(0, "cm")) +
+    theme(legend.margin = grid::unit(0, "cm")) +
 
     # Set title and axis labels, and format these and tick marks
     theme(plot.title = element_text(color = color.title, size = 20, vjust = 2.5)) +
@@ -43,6 +44,6 @@ grey_theme <- function(legend.position = "bottom") {
     theme(axis.title.y = element_text(size = 15, color = color.axis.title, vjust = 1.5)) +
 
     # Plot margins
-    theme(plot.margin = unit(c(1, 1, 0.5, 0.7), "cm"))
+    theme(plot.margin = grid::unit(c(1, 1, 0.5, 0.7), "cm"))
 
 }

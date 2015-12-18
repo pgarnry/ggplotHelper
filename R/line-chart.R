@@ -23,7 +23,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   if(!is.data.frame(df)) stop("Input object has to be data.frame")
 
   # stop if grouping variable is not a factor
-  if(!is.factor(df[, group])) stop("Grouping variable should be a factor")
+  if(!is.factor(df[, group]) & !is.null(group)) stop("Grouping variable should be a factor")
 
   # set colours based on grouping
   if(is.null(group)) {
@@ -34,17 +34,17 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   }
 
   # generate ggplot
-  g <- ggplot(df, aes_string(x = x, y = y, colour = group), environment = environment()) + {
+  g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) + {
     if(!is.null(vline)) geom_vline(xintercept = vline, color = "#fe9929", size = 1)
     } + {
     if(!is.null(hline)) geom_hline(yintercept = hline, color = "#fe9929", size = 1)
     } +
-    geom_line(size = 1.2) +
-    scale_colour_manual(values = palette) +
+    geom_line(aes(colour = group),size = 1.2) +
+    scale_colour_manual(name = group, values = palette) +
     ggtitle(title) +
     labs(x = x.title, y = y.title) +
     scale_x_continuous(expand = c(.01, 0)) +
-    scale_y_continuous(expand = c(.01, .05)) +
+    scale_y_continuous(expand = c(.01, 0)) +
     grey_theme(...)
 
   return(g)
