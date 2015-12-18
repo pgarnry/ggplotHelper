@@ -5,7 +5,7 @@
 \title{Function for plotting beautiful barcharts in ggplot}
 \usage{
 bar_chart(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
-  x.title = NULL)
+  x.title = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -24,5 +24,10 @@ bar_chart(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
 }
 \description{
 Function for plotting beautiful barcharts in ggplot
+}
+\examples{
+mtcars$name <- rownames(mtcars)
+bar_chart(mtcars, "mpg", "name", flip = TRUE,
+title = "Miles per gallon across different car models")
 }
 

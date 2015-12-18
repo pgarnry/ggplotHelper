@@ -6,19 +6,24 @@
 #' @param title character string specifying chart title
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
+#' @examples
+#' mtcars$name <- rownames(mtcars)
+#' bar_chart(mtcars, "mpg", "name", flip = TRUE,
+#' title = "Miles per gallon across different car models")
 #' @export
 
 bar_chart <- function(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
-                      x.title = NULL) {
+                      x.title = NULL, ...) {
 
   if(is.null(y)) stop("y should correspond to a variable name in input data frame")
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
 
   g <- ggplot(df, aes_string(y = y, x = x), environment = environment()) +
-    geom_bar(stat = "identity", fill = "dodgerblue3") +
-    grey_theme() +
-    labs(title = title, x = x.title, y = y.title) +
-    if(flip) {coord_flip()}
+    geom_bar(stat = "identity", fill = chart_colours()[1]) +
+    grey_theme(...) +
+    labs(title = title, x = x.title, y = y.title) + {
+      if(flip) coord_flip()
+    }
 
   return(g)
 
