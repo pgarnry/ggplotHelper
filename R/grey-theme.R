@@ -38,13 +38,13 @@ grey_theme <- function(legend.position = "bottom") {
     theme(legend.margin = grid::unit(0.2, "cm")) +
 
     # Set title and axis labels, and format these and tick marks
-    theme(plot.title = element_text(color = color.title, size = 20, vjust = 2.5)) +
+    theme(plot.title = element_text(color = color.title, size = 20, vjust = 0.5)) +
     theme(axis.text.x = element_text(size = 14, color = color.axis.text)) +
     theme(axis.text.y = element_text(size = 14, color = color.axis.text)) +
-    theme(axis.title.x = element_text(size = 15, color = color.axis.title, vjust = 0.5)) +
-    theme(axis.title.y = element_text(size = 15, color = color.axis.title, vjust = 1.5)) +
+    theme(axis.title.x = element_text(size = 15, color = color.axis.title, hjust = 0.5)) +
+    theme(axis.title.y = element_text(size = 15, color = color.axis.title, vjust = 0.5)) +
 
     # Plot margins
-    theme(plot.margin = grid::unit(c(1, 1, 0.3, 0.7), "cm"))
+    theme(plot.margin = grid::unit(c(0.7, 1, 0.2, 0.3), "cm"))
 
 }

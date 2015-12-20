@@ -74,8 +74,8 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
     } + {
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#fe9929", size = 1)
     } +
-    ggtitle(title) +
-    labs(x = x.title, y = y.title) +
+    ggtitle(paste(title, "\n")) +
+    labs(x = paste("\n", x.title), y = paste(y.title, "\n")) +
     scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
 
