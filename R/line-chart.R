@@ -28,10 +28,16 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   # set colours based on grouping
   if(is.null(group)) {
     palette <- chart_colours()[1]
+    id <- as.factor(y)
   } else {
     palette <- chart_colours()[1:nlevels(df[, group])]
+    id <- as.factor(paste(" ", df[, group], "   "))
     df[, group] <- as.factor(paste(" ", df[, group], "   "))
   }
+
+  # if x and y axis titles are not NULL include line break
+  if(!is.null(x.title)) x.title <- paste("\n", x.title)
+  if(!is.null(y.title)) y.title <- paste(y.title, "\n")
 
   # generate ggplot
   g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) + {
@@ -39,9 +45,9 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
     } + {
     if(!is.null(hline)) geom_hline(yintercept = hline, color = "#fe9929", size = 1)
     } +
-    geom_line(aes(colour = group),size = 1.2) +
-    scale_colour_manual(name = group, values = palette) +
-    ggtitle(title) +
+    geom_line(aes(colour = id),size = 1.2) +
+    scale_colour_manual(name = id, values = palette) +
+    ggtitle(paste(title, "\n")) +
     labs(x = x.title, y = y.title) +
     scale_x_continuous(expand = c(.01, 0)) +
     scale_y_continuous(expand = c(.01, 0)) +
