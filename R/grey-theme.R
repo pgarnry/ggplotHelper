@@ -35,7 +35,7 @@ grey_theme <- function(legend.position = "bottom") {
     theme(legend.text = element_text(size = 14, color = color.axis.title)) +
     theme(legend.title = element_blank()) +
     theme(legend.key = element_rect(colour = color.background)) +
-    theme(legend.margin = grid::unit(0.2, "cm")) +
+    theme(legend.margin = grid::unit(0.3, "cm")) +
 
     # Set title and axis labels, and format these and tick marks
     theme(plot.title = element_text(color = color.title, size = 20, vjust = 0.5)) +
@@ -45,6 +45,6 @@ grey_theme <- function(legend.position = "bottom") {
     theme(axis.title.y = element_text(size = 15, color = color.axis.title, vjust = 0.5)) +
 
     # Plot margins
-    theme(plot.margin = grid::unit(c(0.7, 1, 0.2, 0.3), "cm"))
+    theme(plot.margin = grid::unit(c(0.7, 1, 0.5, 0.5), "cm"))
 
 }
