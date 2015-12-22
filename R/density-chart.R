@@ -49,6 +49,10 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
     }
   }
 
+  # if x and y axis titles are not NULL include line break
+  if(!is.null(x.title)) x.title <- paste("\n", x.title)
+  if(!is.null(y.title)) y.title <- paste(y.title, "\n")
+
   # set colours based on grouping
   palette <- chart_colours()[1:nlevels(id)]
 
@@ -75,7 +79,7 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#fe9929", size = 1)
     } +
     ggtitle(paste(title, "\n")) +
-    labs(x = paste("\n", x.title), y = paste(y.title, "\n")) +
+    labs(x = x.title, y = y.title) +
     scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
 
