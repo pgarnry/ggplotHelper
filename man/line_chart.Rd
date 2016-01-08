@@ -6,7 +6,7 @@
 \usage{
 line_chart(df, y, x, group = NULL, title = NULL, x.title = NULL,
   y.title = NULL, vline = NULL, hline = NULL, x.interval = NULL,
-  date.format = NULL, ...)
+  date.format = NULL, min.lim = NULL, max.lim = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}

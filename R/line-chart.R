@@ -17,7 +17,8 @@
 
 line_chart <- function(df, y, x, group = NULL, title = NULL,
                        x.title = NULL, y.title = NULL, vline = NULL,
-                       hline = NULL, x.interval = NULL, date.format = NULL, ...) {
+                       hline = NULL, x.interval = NULL, date.format = NULL,
+                       min.lim = NULL, max.lim = NULL, ...) {
 
   # stop if input object is not a data.frame
   if(!is.data.frame(df)) stop("Input object has to be data.frame")
@@ -42,6 +43,20 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   # checks if x.interval is numeric and date.format is character if not NULL
   if(!is.null(x.interval) & !is.numeric(x.interval)) stop("x.interval should be numeric")
   if(!is.null(date.format) & !is.character(date.format)) stop("date.format should be character")
+
+  # if NULL then it automatically sets minimum limits on x axis
+  if(is.null(min.lim)) {
+    min.lim <- floor(min(df[, y]) * .95)
+  } else {
+    min.lim <- min.lim
+  }
+
+  # if NULL then it automatically sets maximum limits on x axis
+  if(is.null(max.lim)) {
+    max.lim <- ceiling(max(df[, y]) * 1.05)
+  } else {
+    max.lim <- max.lim
+  }
 
   # define accepted date-time classes, chron and timeDate classes are not accepted
   dt.classes <- c("POSIXct", "Date", "yearmon", "yearqtr")
@@ -76,9 +91,9 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
                   ggtitle(paste(title, "\n")) +
                   labs(x = x.title, y = y.title) + {
                     if(is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
-                      scale_x_yearmon(breaks = df[date.seq, x], labels = date_format(date.format), expand = c(.01, .01))}
+                      scale_x_yearmon(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
                   } +
-                  scale_y_continuous(expand = c(.01, 0)) +
+                  scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
                   grey_theme(...)
 
     }
