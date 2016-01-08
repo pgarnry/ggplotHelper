@@ -5,7 +5,8 @@
 \title{Create line chart}
 \usage{
 line_chart(df, y, x, group = NULL, title = NULL, x.title = NULL,
-  y.title = NULL, vline = NULL, hline = NULL, ...)
+  y.title = NULL, vline = NULL, hline = NULL, x.interval = NULL,
+  date.format = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
