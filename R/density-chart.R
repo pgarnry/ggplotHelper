@@ -74,9 +74,9 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
     geom_density(aes(fill = id), alpha = transparency, linetype = 0) +
     scale_fill_manual(values = palette) +
     scale_x_continuous(limits=c(min.lim, max.lim)) + {
-      if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed")
+      if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
     } + {
-      if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#fe9929", size = 1)
+      if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#636363", size = 1)
     } +
     ggtitle(paste(title, "\n")) +
     labs(x = x.title, y = y.title) +
