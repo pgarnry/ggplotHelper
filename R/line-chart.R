@@ -12,7 +12,7 @@
 #' @param hline numeric specifying position of horizontal line
 #' @details
 #' The ellipsis is used to pass on arguments to the grey_theme function. Primary
-#' use is to specify the legend.position to either "left", "right", "bottom" and "top".
+#' use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
 #' @export
 
 line_chart <- function(df, y, x, group = NULL, title = NULL,
@@ -44,14 +44,14 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   if(!is.null(x.interval) & !is.numeric(x.interval)) stop("x.interval should be numeric")
   if(!is.null(date.format) & !is.character(date.format)) stop("date.format should be character")
 
-  # if NULL then it automatically sets minimum limits on x axis
+  # if NULL then it automatically sets minimum limits on y axis
   if(is.null(min.lim)) {
     min.lim <- floor(min(df[, y]) * .95)
   } else {
     min.lim <- min.lim
   }
 
-  # if NULL then it automatically sets maximum limits on x axis
+  # if NULL then it automatically sets maximum limits on y axis
   if(is.null(max.lim)) {
     max.lim <- ceiling(max(df[, y]) * 1.05)
   } else {
