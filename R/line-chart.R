@@ -69,6 +69,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
       # generate line chart with date class POSIXct
       g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
                   geom_line(aes(colour = id), size = 1.2) +
+                  scale_colour_manual(values = palette) +
                   ggtitle(paste(title, "\n")) +
                   labs(x = x.title, y = y.title) + {
                     if(is.null(x.scale)) scale_x_datetime(date_labels = format("%Y-%m-%d %H:%M:%S")) else {
@@ -88,6 +89,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
       # generate line chart with date class yearmon
       g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
                   geom_line(aes(colour = id), size = 1.2) +
+                  scale_colour_manual(values = palette) +
                   ggtitle(paste(title, "\n")) +
                   labs(x = x.title, y = y.title) + {
                     if(is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
