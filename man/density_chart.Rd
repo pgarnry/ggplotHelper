@@ -43,6 +43,6 @@ Vline option specifies whether vertical lines showing the median of the distribu
 should be plotted.
 }
 \examples{
-density_chart(mtcars,"mpg","cyl",title="Miles per gallon",vline=TRUE)
+density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon", vline = TRUE)
 }
 

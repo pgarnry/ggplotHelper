@@ -20,7 +20,7 @@
 #' Vline option specifies whether vertical lines showing the median of the distribution
 #' should be plotted.
 #' @examples
-#' density_chart(mtcars,"mpg","cyl",title="Miles per gallon",vline=TRUE)
+#' density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon", vline = TRUE)
 #' @export
 
 density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,

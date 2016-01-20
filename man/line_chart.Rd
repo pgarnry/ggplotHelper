@@ -6,7 +6,8 @@
 \usage{
 line_chart(df, y, x, group = NULL, title = NULL, x.title = NULL,
   y.title = NULL, vline = NULL, hline = NULL, x.interval = NULL,
-  date.format = NULL, min.lim = NULL, max.lim = NULL, ...)
+  date.format = NULL, min.lim = NULL, max.lim = NULL,
+  lower.ribbon = NULL, upper.ribbon = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -31,6 +32,6 @@ plot using ggplot2
 }
 \details{
 The ellipsis is used to pass on arguments to the grey_theme function. Primary
-use is to specify the legend.position to either "left", "right", "bottom" and "top".
+use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
 }
 

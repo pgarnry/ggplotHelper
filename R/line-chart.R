@@ -18,7 +18,8 @@
 line_chart <- function(df, y, x, group = NULL, title = NULL,
                        x.title = NULL, y.title = NULL, vline = NULL,
                        hline = NULL, x.interval = NULL, date.format = NULL,
-                       min.lim = NULL, max.lim = NULL, ...) {
+                       min.lim = NULL, max.lim = NULL, lower.ribbon = NULL,
+                       upper.ribbon = NULL, ...) {
 
   # stop if input object is not a data.frame
   if(!is.data.frame(df)) stop("Input object has to be data.frame")
@@ -58,6 +59,11 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
     max.lim <- max.lim
   }
 
+  # if lower.ribbon or upper.ribbon is not NULL
+  if(!is.null(lower.ribbon) & !is.null(upper.ribbon)) {
+    ribbon <- TRUE
+  }
+
   # define accepted date-time classes, chron and timeDate classes are not accepted
   dt.classes <- c("POSIXct", "Date", "yearmon", "yearqtr")
 
@@ -87,16 +93,18 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
       if(!is.null(x.interval)) date.seq <- seq(1, length(df[,x]), x.interval)
 
       # generate line chart with date class yearmon
-      g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
+      g <- ggplot(df, aes_string(x = x, y = y, group = group, ymin = lower.ribbon, ymax = upper.ribbon), environment = environment()) +
                   geom_line(aes(colour = id), size = 1.2) +
                   scale_colour_manual(values = palette) +
                   ggtitle(paste(title, "\n")) +
-                  labs(x = x.title, y = y.title) + {
-                    if(is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
-                      scale_x_yearmon(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
-                  } +
+                  labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
-                  grey_theme(...)
+                  grey_theme(...) +{
+                    if (is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
+                      scale_x_yearmon(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
+                  } + {
+                    if (ribbon) geom_ribbon(fill = chart_colours()[1], alpha = .2)
+                  }
 
     }
 
@@ -104,9 +112,9 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
 
     # generate simple line chart
     g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) + {
-                if(!is.null(vline)) geom_vline(xintercept = vline, color = "#fe9929", size = 1)
+                if(!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)
                 } + {
-                if(!is.null(hline)) geom_hline(yintercept = hline, color = "#fe9929", size = 1)
+                if(!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)
                 } +
                 geom_line(aes(colour = id), size = 1.2) +
                 scale_colour_manual(name = id, values = palette) +

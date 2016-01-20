@@ -34,7 +34,6 @@ grey_theme <- function(legend.position = "bottom") {
     theme(legend.background = element_rect(fill = color.background)) +
     theme(legend.text = element_text(size = 14, color = color.axis.title)) +
     theme(legend.title = element_blank()) +
-    #theme(legend.key = element_rect(colour = color.background)) +
     theme(legend.key = element_blank()) +
     theme(legend.margin = grid::unit(0.3, "cm")) +
 
