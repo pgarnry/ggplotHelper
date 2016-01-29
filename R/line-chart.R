@@ -62,6 +62,8 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   # if lower.ribbon or upper.ribbon is not NULL
   if(!is.null(lower.ribbon) & !is.null(upper.ribbon)) {
     ribbon <- TRUE
+  } else {
+    ribbon <- FALSE
   }
 
   # define accepted date-time classes, chron and timeDate classes are not accepted
@@ -70,7 +72,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   # check whether x variable is a recognized time-based class
   if(any(class(df[, x]) %in% dt.classes)) {
 
-    if(dt.classes[1] %in% class(df[, x])) {
+    if(class(df[, x]) == "POSIXct") {
 
       # generate line chart with date class POSIXct
       g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
@@ -105,6 +107,28 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
                   } + {
                     if (ribbon) geom_ribbon(fill = chart_colours()[1], alpha = .2)
                   }
+
+    }
+
+    if(class(df[, x]) == "yearqtr") {
+
+      if(is.null(date.format)) date.format <- "%Y Q%q"
+
+      if(!is.null(x.interval)) date.seq <- seq(1, length(df[,x]), x.interval)
+
+      # generate line chart with date class yearmon
+      g <- ggplot(df, aes_string(x = x, y = y, group = group, ymin = lower.ribbon, ymax = upper.ribbon), environment = environment()) +
+        geom_line(aes(colour = id), size = 1.2) +
+        scale_colour_manual(values = palette) +
+        ggtitle(paste(title, "\n")) +
+        labs(x = x.title, y = y.title) +
+        scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
+        grey_theme(...) +{
+          if (is.null(x.interval)) scale_x_yearqtr(format = date.format, expand = c(.01, 0)) else {
+            scale_x_yearqtr(breaks = df[date.seq, x], format = date.format, expand = c(.01, .01))}
+        } + {
+          if (ribbon) geom_ribbon(fill = chart_colours()[1], alpha = .2)
+        }
 
     }
 
