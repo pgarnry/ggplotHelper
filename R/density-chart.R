@@ -6,6 +6,8 @@
 #' @param x character string specifying name of x variable in data frame
 #' @param group character string for grouping of x
 #' @param title character string specifying chart title
+#' @param sub.title character string specifying chart sub title
+#' @param legend.names character string specifying legend names
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
 #' @param transparency numeric setting the level of colour transparency
@@ -14,19 +16,25 @@
 #' @param vline logical value for drawing vertical lines for the distribution median of x
 #' @param vline.custom numeric setting position on vertical line not tied to the distribution of x
 #' @details
+#' Group variable not ideally be a factor but the function will force class factor on the variable.
+#'
+#' Use legend names variable to set custom labels on legends. If legend names is NULL the function
+#' will force legend names to the colnames of either x or names of groups depending on the input.
+#'
 #' The ellipsis is used to pass on arguments to the grey_theme function. Primary
 #' use is to specify the legend.position to either "left", "right", "bottom" and "top".
 #'
 #' Vline option specifies whether vertical lines showing the median of the distribution
 #' should be plotted.
 #' @examples
-#' density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon", vline = TRUE)
+#' density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon",
+#' sub.title = "(per groups of cylinders)", vline = TRUE)
 #' @export
 
 density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
-                          y.title = NULL, x.title = NULL, transparency = .3,
-                          min.lim = NULL, max.lim = NULL, vline = FALSE,
-                          vline.custom = NULL, ...) {
+                          legend.names = NULL, y.title = NULL, x.title = NULL,
+                          transparency = .3, min.lim = NULL, max.lim = NULL,
+                          vline = FALSE, vline.custom = NULL, ...) {
 
   # stop if input object is not a data.frame
   if(!is.data.frame(df)) stop("Input object has to be data.frame")
@@ -35,26 +43,30 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
 
   # define grouping (as factor) and insert space in the end for pretty legend labels
-  if(!is.null(group)) {
-    id <- as.factor(paste(" ", df[, group], "   "))
-    df[, group] <- as.factor(paste(" ", df[, group], "   "))
+  if(is.null(group)) {
+    group <- as.factor(x)
+    palette <- chart_colours()[1]
+    if(is.null(legend.names)) {
+      legend.names <- paste(" ", x)
+    }
+    if(vline) {
+      vline.df <- data.frame(median = median(df[, x]))
+    }
+  } else {
+    df[, group] <- as.factor(df[, group])
+    palette <- chart_colours()[1:nlevels(df[, group])]
+    if(is.null(legend.names)) {
+      legend.names <- paste(" ", as.character(levels(df[, group])), "   ")
+    }
     if(vline) {
       vline.df <- aggregate(df[, x], list(df[, group]), median)
       colnames(vline.df) <- c("group", "median")
-    }
-  } else {
-    id <- as.factor(x)
-    if(vline) {
-      vline.df <- data.frame(median = median(df[, x]))
     }
   }
 
   # if x and y axis titles are not NULL include line break
   if(!is.null(x.title)) x.title <- paste("\n", x.title)
   if(!is.null(y.title)) y.title <- paste(y.title, "\n")
-
-  # set colours based on grouping
-  palette <- chart_colours()[1:nlevels(id)]
 
   # if NULL then it automatically sets minimum limits on x axis
   if(is.null(min.lim)) {
@@ -70,9 +82,10 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
     max.lim <- max.lim
   }
 
-  g <- ggplot(df, aes_string(x = x, group = group), environment = environment()) +
-    geom_density(aes(fill = id), alpha = transparency, linetype = 0) +
-    scale_fill_manual(values = palette) +
+  g <- ggplot(df, aes_string(x = x, fill = group), environment = environment()) +
+    geom_density(alpha = transparency, linetype = 0) +
+    scale_fill_manual(values = palette,
+                      labels = legend.names) +
     scale_x_continuous(limits=c(min.lim, max.lim)) + {
       if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
     } + {

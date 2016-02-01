@@ -5,8 +5,9 @@
 \title{Create density chart}
 \usage{
 density_chart(df, x, group = NULL, title = NULL, sub.title = NULL,
-  y.title = NULL, x.title = NULL, transparency = 0.3, min.lim = NULL,
-  max.lim = NULL, vline = FALSE, vline.custom = NULL, ...)
+  legend.names = NULL, y.title = NULL, x.title = NULL,
+  transparency = 0.3, min.lim = NULL, max.lim = NULL, vline = FALSE,
+  vline.custom = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -16,6 +17,10 @@ density_chart(df, x, group = NULL, title = NULL, sub.title = NULL,
 \item{group}{character string for grouping of x}
 
 \item{title}{character string specifying chart title}
+
+\item{sub.title}{character string specifying chart sub title}
+
+\item{legend.names}{character string specifying legend names}
 
 \item{y.title}{character string specifying y-axis title}
 
@@ -36,6 +41,11 @@ This function is a convinient overlay for creating a beautiful density
 plot using ggplot2
 }
 \details{
+Group variable not ideally be a factor but the function will force class factor on the variable.
+
+Use legend names variable to set custom labels on legends. If legend names is NULL the function
+will force legend names to the colnames of either x or names of groups depending on the input.
+
 The ellipsis is used to pass on arguments to the grey_theme function. Primary
 use is to specify the legend.position to either "left", "right", "bottom" and "top".
 
@@ -43,6 +53,7 @@ Vline option specifies whether vertical lines showing the median of the distribu
 should be plotted.
 }
 \examples{
-density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon", vline = TRUE)
+density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon",
+sub.title = "(per groups of cylinders)", vline = TRUE)
 }
 
