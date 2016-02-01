@@ -68,6 +68,13 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
   if(!is.null(x.title)) x.title <- paste("\n", x.title)
   if(!is.null(y.title)) y.title <- paste(y.title, "\n")
 
+  # define chart title object
+  if(is.null(sub.title)) {
+    chart.title <- paste(title, "\n")
+  } else {
+    chart.title <- bquote(atop(.(title, "\n"), atop(.(sub.title), "")))
+  }
+
   # if NULL then it automatically sets minimum limits on x axis
   if(is.null(min.lim)) {
     min.lim <- floor(mean(df[, x]) - 3 * sd(df[, x]))
@@ -90,9 +97,8 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
       if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
     } + {
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#636363", size = 1)
-    } + {
-      if(is.null(sub.title)) ggtitle(paste(title, "\n")) else ggtitle(bquote(atop(.(title, "\n"), atop(.(sub.title), ""))))
     } +
+    ggtitle(chart.title) +
     labs(x = x.title, y = y.title) +
     scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
