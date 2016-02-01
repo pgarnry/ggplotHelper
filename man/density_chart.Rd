@@ -4,9 +4,9 @@
 \alias{density_chart}
 \title{Create density chart}
 \usage{
-density_chart(df, x, group = NULL, title = NULL, y.title = NULL,
-  x.title = NULL, transparency = 0.3, min.lim = NULL, max.lim = NULL,
-  vline = FALSE, vline.custom = NULL, ...)
+density_chart(df, x, group = NULL, title = NULL, sub.title = NULL,
+  y.title = NULL, x.title = NULL, transparency = 0.3, min.lim = NULL,
+  max.lim = NULL, vline = FALSE, vline.custom = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}

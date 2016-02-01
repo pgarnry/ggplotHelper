@@ -23,8 +23,8 @@
 #' density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon", vline = TRUE)
 #' @export
 
-density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
-                          x.title = NULL, transparency = .3,
+density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
+                          y.title = NULL, x.title = NULL, transparency = .3,
                           min.lim = NULL, max.lim = NULL, vline = FALSE,
                           vline.custom = NULL, ...) {
 
@@ -77,8 +77,9 @@ density_chart <- function(df, x, group = NULL, title = NULL, y.title = NULL,
       if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
     } + {
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#636363", size = 1)
+    } + {
+      if(is.null(sub.title)) ggtitle(paste(title, "\n")) else ggtitle(bquote(atop(.(title, "\n"), atop(.(sub.title), ""))))
     } +
-    ggtitle(paste(title, "\n")) +
     labs(x = x.title, y = y.title) +
     scale_y_continuous(expand = c(.001, 0)) +
     grey_theme(...)
