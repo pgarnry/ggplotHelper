@@ -4,25 +4,41 @@
 \alias{box_chart}
 \title{Create box chart}
 \usage{
-box_chart(df, x, group = NULL, flip = FALSE, title = NULL,
-  y.title = NULL, x.title = NULL, ...)
+box_chart(df, y, x = NULL, title = NULL, sub.title = NULL, flip = FALSE,
+  legend.names = NULL, y.title = NULL, x.title = NULL,
+  box.colours = FALSE, min.lim = NULL, max.lim = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
 
+\item{y}{character string specifying column name in df that should be y variable}
+
 \item{x}{character string specifying column name in df that should be x variable}
 
-\item{group}{character string setting the group variable in the data.frame}
+\item{title}{character string specifying chart title}
+
+\item{sub.title}{character string specifying chart sub title}
 
 \item{flip}{logical indicating whether box chart should be flipped or not}
 
-\item{title}{character string specifying chart title}
+\item{legend.names}{character string specifying legend names (default is NULL)}
 
 \item{y.title}{character string specifying y-axis title}
 
 \item{x.title}{character string specifying x-axis title}
+
+\item{box.colours}{logical indicating whether boxes should have same colours or not}
+
+\item{min.lim}{numeric setting minimum limit on y-axis}
+
+\item{max.lim}{numeric setting maximum limit on y-axis}
 }
 \description{
 This function creates an overlay plotting a bar chart in ggplot
+}
+\details{
+Legend names can be modified through a character vector with same length as
+number of categorical variables in the x variable. If not set, legend names
+will take its names from the x variable.
 }
 
