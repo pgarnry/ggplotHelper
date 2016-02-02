@@ -76,18 +76,10 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
   }
 
   # if NULL then it automatically sets minimum limits on x axis
-  if(is.null(min.lim)) {
-    min.lim <- floor(mean(df[, x]) - 3 * sd(df[, x]))
-  } else {
-    min.lim <- min.lim
-  }
+  if(is.null(min.lim)) min.lim <- floor(mean(df[, x]) - 3 * sd(df[, x]))
 
   # if NULL then it automatically sets maximum limits on x axis
-  if(is.null(max.lim)) {
-    max.lim <- ceiling(mean(df[, x]) + 3 * sd(df[, x]))
-  } else {
-    max.lim <- max.lim
-  }
+  if(is.null(max.lim)) max.lim <- ceiling(mean(df[, x]) + 3 * sd(df[, x]))
 
   g <- ggplot(df, aes_string(x = x, fill = group), environment = environment()) +
     geom_density(alpha = transparency, linetype = 0) +
