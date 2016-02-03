@@ -18,9 +18,9 @@
 #' number of categorical variables in the x variable. If not set, legend names
 #' will take its names from the x variable.
 #' @examples
-#' box_chart(mtcars, "mpg", "cyl", title = "Miles per gallon across cylinders",
-#' sub.title = "(Period 2000-2005)", y.title = "Miles per gallon",
-#' x.title = "Cylinders", legend.position = "none")
+# box_chart(mtcars, "mpg", "cyl", title = "Miles per gallon across cylinders",
+# sub.title = "(Period 2000-2005)", y.title = "Miles per gallon",
+# x.title = "Cylinders", legend.position = "none")
 #' @export
 
 box_chart <- function(df, y, x = NULL, title = NULL, sub.title = NULL,
