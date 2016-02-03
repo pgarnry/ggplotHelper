@@ -2,8 +2,9 @@
 #' @param df data frame containing data for plotting
 #' @param y character string specifying column name in df that should be y variable
 #' @param x character string specifying column name in df that should be x variable
-#' @param flip logical indicating whether barchart should be flipped or not
 #' @param title character string specifying chart title
+#' @param sub.title character string specifying chart sub title
+#' @param flip logical indicating whether barchart should be flipped or not
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
 #' @examples
@@ -14,6 +15,9 @@
 
 bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
                       flip = FALSE, y.title = NULL, x.title = NULL, ...) {
+
+  # stop if input object is not a data.frame
+  if (!is.data.frame(df)) stop("Input object has to be data.frame")
 
   if(is.null(y)) stop("y should correspond to a variable name in input data frame")
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -31,6 +35,8 @@ bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
     ggtitle(chart.title) +
     labs(x = x.title, y = y.title) + {
       if(flip) coord_flip()
+    } + {
+      if(flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())
     }
 
   return(g)

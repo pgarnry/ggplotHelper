@@ -4,8 +4,8 @@
 \alias{bar_chart}
 \title{Function for plotting beautiful barcharts in ggplot}
 \usage{
-bar_chart(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
-  x.title = NULL, ...)
+bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
+  y.title = NULL, x.title = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -14,9 +14,11 @@ bar_chart(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
 
 \item{x}{character string specifying column name in df that should be x variable}
 
-\item{flip}{logical indicating whether barchart should be flipped or not}
-
 \item{title}{character string specifying chart title}
+
+\item{sub.title}{character string specifying chart sub title}
+
+\item{flip}{logical indicating whether barchart should be flipped or not}
 
 \item{y.title}{character string specifying y-axis title}
 
