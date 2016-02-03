@@ -12,16 +12,23 @@
 #' title = "Miles per gallon across different car models")
 #' @export
 
-bar_chart <- function(df, y, x, flip = FALSE, title = NULL, y.title = NULL,
-                      x.title = NULL, ...) {
+bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
+                      flip = FALSE, y.title = NULL, x.title = NULL, ...) {
 
   if(is.null(y)) stop("y should correspond to a variable name in input data frame")
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
 
+  # define chart title object
+  if (is.null(sub.title)) {
+    chart.title <- paste(title, "\n")
+  } else {
+    chart.title <- bquote(atop(.(title, "\n"), atop(.(sub.title), "")))
+  }
+
   g <- ggplot(df, aes_string(y = y, x = x), environment = environment()) +
     geom_bar(stat = "identity", fill = chart_colours()[1]) +
     grey_theme(...) +
-    ggtitle(title) +
+    ggtitle(chart.title) +
     labs(x = x.title, y = y.title) + {
       if(flip) coord_flip()
     }
