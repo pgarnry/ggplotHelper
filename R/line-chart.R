@@ -15,52 +15,47 @@
 #' use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
 #' @export
 
-line_chart <- function(df, y, x, group = NULL, title = NULL,
+line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
                        x.title = NULL, y.title = NULL, vline = NULL,
                        hline = NULL, x.interval = NULL, date.format = NULL,
                        min.lim = NULL, max.lim = NULL, lower.ribbon = NULL,
-                       upper.ribbon = NULL, ...) {
+                       upper.ribbon = NULL, legend.names = NULL,
+                       ribbon.names = NULL, ...) {
 
   # stop if input object is not a data.frame
-  if(!is.data.frame(df)) stop("Input object has to be data.frame")
-
-  # stop if grouping variable is not a factor
-  if(!is.factor(df[, group]) & !is.null(group)) stop("Grouping variable should be a factor")
+  if (!is.data.frame(df)) stop("Input object has to be data.frame")
 
   # set colours based on grouping
-  if(is.null(group)) {
+  if (is.null(group)) {
     palette <- chart_colours()[1]
-    id <- as.factor(y)
   } else {
+    df[, group] <- as.factor(df[, group])
     palette <- chart_colours()[1:nlevels(df[, group])]
-    id <- as.factor(paste(" ", df[, group], "   "))
-    df[, group] <- as.factor(paste(" ", df[, group], "   "))
   }
 
   # if x and y axis titles are not NULL include line break
-  if(!is.null(x.title)) x.title <- paste("\n", x.title)
-  if(!is.null(y.title)) y.title <- paste(y.title, "\n")
+  if (!is.null(x.title)) x.title <- paste("\n", x.title)
+  if (!is.null(y.title)) y.title <- paste(y.title, "\n")
+
+  # define chart title object
+  if (is.null(sub.title)) {
+    chart.title <- paste(title, "\n")
+  } else {
+    chart.title <- bquote(atop(.(title, "\n"), atop(.(sub.title), "")))
+  }
 
   # checks if x.interval is numeric and date.format is character if not NULL
-  if(!is.null(x.interval) & !is.numeric(x.interval)) stop("x.interval should be numeric")
-  if(!is.null(date.format) & !is.character(date.format)) stop("date.format should be character")
+  if (!is.null(x.interval) & !is.numeric(x.interval)) stop("x.interval should be numeric")
+  if (!is.null(date.format) & !is.character(date.format)) stop("date.format should be character")
 
   # if NULL then it automatically sets minimum limits on y axis
-  if(is.null(min.lim)) {
-    min.lim <- floor(min(df[, y]) * .95)
-  } else {
-    min.lim <- min.lim
-  }
+  if (is.null(min.lim)) min.lim <- floor(min(df[, y]) * .95)
 
   # if NULL then it automatically sets maximum limits on y axis
-  if(is.null(max.lim)) {
-    max.lim <- ceiling(max(df[, y]) * 1.05)
-  } else {
-    max.lim <- max.lim
-  }
+  if (is.null(max.lim)) max.lim <- ceiling(max(df[, y]) * 1.05)
 
   # if lower.ribbon or upper.ribbon is not NULL
-  if(!is.null(lower.ribbon) & !is.null(upper.ribbon)) {
+  if (!is.null(lower.ribbon) & !is.null(upper.ribbon)) {
     ribbon <- TRUE
   } else {
     ribbon <- FALSE
@@ -70,15 +65,15 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
   dt.classes <- c("POSIXct", "Date", "yearmon", "yearqtr")
 
   # check whether x variable is a recognized time-based class
-  if(any(class(df[, x]) %in% dt.classes)) {
+  if (any(class(df[, x]) %in% dt.classes)) {
 
-    if(class(df[, x]) == "POSIXct") {
+    if (class(df[, x]) == "POSIXct") {
 
       # generate line chart with date class POSIXct
       g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
-                  geom_line(aes(colour = id), size = 1.2) +
+                  geom_line(size = 1.2) +
                   scale_colour_manual(values = palette) +
-                  ggtitle(paste(title, "\n")) +
+                  ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) + {
                     if(is.null(x.scale)) scale_x_datetime(date_labels = format("%Y-%m-%d %H:%M:%S")) else {
                       scale_x_datetime(date_breaks = x.scale[1], date_labels = x.scale[2], expand = c(.01, .5))}
@@ -88,24 +83,30 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
 
     }
 
-    if(class(df[, x]) == "yearmon") {
+    if (class(df[, x]) == "yearmon") {
 
-      if(is.null(date.format)) date.format <- "%b %Y"
+      if (is.null(date.format)) date.format <- "%b %Y"
 
-      if(!is.null(x.interval)) date.seq <- seq(1, length(df[,x]), x.interval)
+      if (!is.null(x.interval)) date.seq <- seq(1, length(df[,x]), x.interval)
 
       # generate line chart with date class yearmon
       g <- ggplot(df, aes_string(x = x, y = y, group = group, ymin = lower.ribbon, ymax = upper.ribbon), environment = environment()) +
-                  geom_line(aes(colour = id), size = 1.2) +
-                  scale_colour_manual(values = palette) +
-                  ggtitle(paste(title, "\n")) +
+                  geom_line(aes(colour = palette), size = 1.2) +
+                  scale_colour_manual(values = palette,
+                                      labels = legend.names) +
+                  ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
-                  grey_theme(...) +{
+                  grey_theme() + {
+                    if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)
+                  } + {
+                    if (ribbon) scale_fill_manual(values = chart_colours()[1],
+                                                  labels = ribbon.names)
+                  } + {
                     if (is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
                       scale_x_yearmon(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
                   } + {
-                    if (ribbon) geom_ribbon(fill = chart_colours()[1], alpha = .2)
+                    if (ribbon) theme(legend.box = "horizontal")
                   }
 
     }
@@ -116,11 +117,11 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
 
       if(!is.null(x.interval)) date.seq <- seq(1, length(df[,x]), x.interval)
 
-      # generate line chart with date class yearmon
+      # generate line chart with date class yearqtr
       g <- ggplot(df, aes_string(x = x, y = y, group = group, ymin = lower.ribbon, ymax = upper.ribbon), environment = environment()) +
         geom_line(aes(colour = id), size = 1.2) +
         scale_colour_manual(values = palette) +
-        ggtitle(paste(title, "\n")) +
+        ggtitle(chart.title) +
         labs(x = x.title, y = y.title) +
         scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
         grey_theme(...) +{
@@ -142,7 +143,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL,
                 } +
                 geom_line(aes(colour = id), size = 1.2) +
                 scale_colour_manual(name = id, values = palette) +
-                ggtitle(paste(title, "\n")) +
+                ggtitle(chart.title) +
                 labs(x = x.title, y = y.title) +
                 scale_x_continuous(expand = c(.01, 0)) +
                 scale_y_continuous(expand = c(.01, 0)) +

@@ -4,10 +4,11 @@
 \alias{line_chart}
 \title{Create line chart}
 \usage{
-line_chart(df, y, x, group = NULL, title = NULL, x.title = NULL,
-  y.title = NULL, vline = NULL, hline = NULL, x.interval = NULL,
-  date.format = NULL, min.lim = NULL, max.lim = NULL,
-  lower.ribbon = NULL, upper.ribbon = NULL, ...)
+line_chart(df, y, x, group = NULL, title = NULL, sub.title = NULL,
+  x.title = NULL, y.title = NULL, vline = NULL, hline = NULL,
+  x.interval = NULL, date.format = NULL, min.lim = NULL, max.lim = NULL,
+  lower.ribbon = NULL, upper.ribbon = NULL, legend.names = NULL,
+  ribbon.names = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
