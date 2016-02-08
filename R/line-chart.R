@@ -97,13 +97,13 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
-                  grey_theme() + {
+                  grey_theme(...) + {
                     if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)
                   } + {
                     if (ribbon) scale_fill_manual(values = chart_colours()[1],
                                                   labels = ribbon.names)
                   } + {
-                    if (is.null(x.interval)) scale_x_yearmon(expand = c(.01, 0)) else {
+                    if (is.null(x.interval)) scale_x_yearmon(format = date.format, expand = c(.01, 0)) else {
                       scale_x_yearmon(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
                   } + {
                     if (ribbon) theme(legend.box = "horizontal")
@@ -119,16 +119,22 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
 
       # generate line chart with date class yearqtr
       g <- ggplot(df, aes_string(x = x, y = y, group = group, ymin = lower.ribbon, ymax = upper.ribbon), environment = environment()) +
-        geom_line(aes(colour = id), size = 1.2) +
-        scale_colour_manual(values = palette) +
+        geom_line(aes(colour = palette), size = 1.2) +
+        scale_colour_manual(values = palette,
+                            labels = legend.names) +
         ggtitle(chart.title) +
         labs(x = x.title, y = y.title) +
         scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
-        grey_theme(...) +{
-          if (is.null(x.interval)) scale_x_yearqtr(format = date.format, expand = c(.01, 0)) else {
-            scale_x_yearqtr(breaks = df[date.seq, x], format = date.format, expand = c(.01, .01))}
+        grey_theme(...) + {
+          if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)
         } + {
-          if (ribbon) geom_ribbon(fill = chart_colours()[1], alpha = .2)
+          if (ribbon) scale_fill_manual(values = chart_colours()[1],
+                                        labels = ribbon.names)
+        } + {
+          if (is.null(x.interval)) scale_x_yearqtr(format = date.format, expand = c(.01, 0)) else {
+            scale_x_yearqtr(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
+        } + {
+          if (ribbon) theme(legend.box = "horizontal")
         }
 
     }
