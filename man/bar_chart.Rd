@@ -5,7 +5,8 @@
 \title{Function for plotting beautiful barcharts in ggplot}
 \usage{
 bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
-  y.title = NULL, x.title = NULL, ...)
+  y.title = NULL, x.title = NULL, decreasing = NULL,
+  bar.colour.pos = NULL, scale.y = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -23,13 +24,27 @@ bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
 \item{y.title}{character string specifying y-axis title}
 
 \item{x.title}{character string specifying x-axis title}
+
+\item{decreasing}{logical indicating whether y values should be ordered and in which direction}
+
+\item{bar.colour.pos}{numeric indicating the position of bar that should be coloured separately}
+
+\item{scale.y}{numeric vector with length three providing y-axis limits (min and max) and breaks (see details)}
 }
 \description{
 Function for plotting beautiful barcharts in ggplot
 }
+\details{
+The scale.y numeric vector has length three and indicates the y-axis limits and break points.
+An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
+maximum value of 60 with breaks for every 10 between the minimum and maximum values.
+
+Otherwise see example for clarification on the scale.y variable.
+}
 \examples{
 mtcars$name <- rownames(mtcars)
 bar_chart(mtcars, "mpg", "name", flip = TRUE,
-title = "Miles per gallon across different car models")
+title = "Miles per gallon across different car models",
+scale.y = c(0, 40, 5))
 }
 
