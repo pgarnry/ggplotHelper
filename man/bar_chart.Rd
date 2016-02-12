@@ -6,7 +6,7 @@
 \usage{
 bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
   y.title = NULL, x.title = NULL, decreasing = NULL,
-  bar.colour.pos = NULL, scale.y = NULL, ...)
+  bar.colour.name = NULL, scale.y = NULL, ...)
 }
 \arguments{
 \item{df}{data frame containing data for plotting}
@@ -27,7 +27,7 @@ bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
 
 \item{decreasing}{logical indicating whether y values should be ordered and in which direction}
 
-\item{bar.colour.pos}{numeric indicating the position of bar that should be coloured separately}
+\item{bar.colour.name}{character string indicating which bars to be coloured based on x names (see details)}
 
 \item{scale.y}{numeric vector with length three providing y-axis limits (min and max) and breaks (see details)}
 }
@@ -35,6 +35,9 @@ bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
 Function for plotting beautiful barcharts in ggplot
 }
 \details{
+The option bar.colour.name allows for multiple bars based on x-axis names to get a different colour.
+If set to NULL all bars will have same default colour.
+
 The scale.y numeric vector has length three and indicates the y-axis limits and break points.
 An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
 maximum value of 60 with breaks for every 10 between the minimum and maximum values.

@@ -8,9 +8,12 @@
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
 #' @param decreasing logical indicating whether y values should be ordered and in which direction
-#' @param bar.colour.pos numeric indicating the position of bar that should be coloured separately
+#' @param bar.colour.name character string indicating which bars to be coloured based on x names (see details)
 #' @param scale.y numeric vector with length three providing y-axis limits (min and max) and breaks (see details)
 #' @details
+#' The option bar.colour.name allows for multiple bars based on x-axis names to get a different colour.
+#' If set to NULL all bars will have same default colour.
+#'
 #' The scale.y numeric vector has length three and indicates the y-axis limits and break points.
 #' An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
 #' maximum value of 60 with breaks for every 10 between the minimum and maximum values.
@@ -25,7 +28,7 @@
 
 bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
                       flip = FALSE, y.title = NULL, x.title = NULL,
-                      decreasing = NULL, bar.colour.pos = NULL,
+                      decreasing = NULL, bar.colour.name = NULL,
                       scale.y = NULL, ...) {
 
   # stop if input object is not a data.frame
@@ -35,19 +38,20 @@ bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
   if (is.null(x)) stop("x should correspond to a variable name in input data frame")
 
   # define chart title object
-  if (is.null(sub.title)) {
-    chart.title <- paste(title, "\n")
-  } else {
+  if (!is.null(title) & !is.null(sub.title)) {
     chart.title <- bquote(atop(.(title, "\n"), atop(.(sub.title), "")))
-  }
+  } else if (!is.null(title) & is.null(sub.title)) {
+    chart.title <- paste(title, "\n")
+  } else
+    chart.title <- NULL
 
   # changing the ordering of y values
   if (!is.null(decreasing)) {
     if (decreasing) {
-      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = T), x])
+      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = F), x])
     }
     if (!decreasing) {
-      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = F), x])
+      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = T), x])
     }
   }
 
@@ -62,8 +66,8 @@ bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
 
   # setting colours
   palette <- rep(chart_colours()[1], nrow(df))
-  if (!is.null(bar.colour.pos)) {
-    palette[bar.colour.pos] <- "#f4a582"
+  if (!is.null(bar.colour.name)) {
+    palette[match(bar.colour.name, levels(df[, x]))] <- "#f4a582"
   }
 
   # creating chart
