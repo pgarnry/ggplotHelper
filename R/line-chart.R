@@ -5,12 +5,26 @@
 #' @param df data frame containing data for plotting
 #' @param y specifying column name in df that should be y variable
 #' @param x specifying column name in df that should be x variable
+#' @param group specifies the label for splitting data into multiple lines
 #' @param title character string specifying chart title
+#' @param sub.title character string specifying chart sub title
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
 #' @param vline numeric specifying position of vertical line
 #' @param hline numeric specifying position of horizontal line
+#' @param x.interval numeric used to set breaks when scaling the x variable
+#' @param date.format character vector specifying the date label (see details)
+#' @param min.lim numeric setting the minimum value on y-axis
+#' @param max.lim numeric setting the maximum value on y-axis
+#' @param lower.ribbon character string specifying column with values for lower ribbon
+#' @param upper.ribbon character string specifying column with values for upper ribbon
+#' @param legend.names character vector setting custom legend names
+#' @param ribbon.names character string specifying custom legend name for ribbon
 #' @details
+#' Format codes for time series classes are defined in strftime. If date.format is
+#' set to NULL the date format will be set to the most used format for each time
+#' series class.
+#'
 #' The ellipsis is used to pass on arguments to the grey_theme function. Primary
 #' use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
 #' @export
@@ -24,6 +38,14 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
 
   # stop if input object is not a data.frame
   if (!is.data.frame(df)) stop("Input object has to be data.frame")
+
+  # define accepted date-time classes, chron and timeDate classes are not accepted
+  dt.classes <- c("POSIXct", "Date", "yearmon", "yearqtr")
+
+  if(!is.numeric(df[, x]) & all(class(df[, x]) != dt.classes)) {
+    stop("x variable class should either be numeric or one of the time series classes
+         POSIXct, Date, yearmon or yearqtr")
+  }
 
   # define grouping, colouring and legend names
   if(is.null(group)) {
@@ -68,9 +90,6 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
   } else {
     ribbon <- FALSE
   }
-
-  # define accepted date-time classes, chron and timeDate classes are not accepted
-  dt.classes <- c("POSIXct", "Date", "yearmon", "yearqtr")
 
   # check whether x variable is a recognized time-based class
   if (any(class(df[, x]) %in% dt.classes)) {
@@ -167,7 +186,7 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits=c(min.lim, max.lim), expand = c(.01, 0)) +
-                  grey_theme() + {
+                  grey_theme(...) + {
                   if (is.null(x.interval)) scale_x_date(date_labels = date.format, expand = c(.01, 0)) else {
                      scale_x_date(breaks = df[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}
                   }
