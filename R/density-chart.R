@@ -42,7 +42,7 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
   # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
 
-  # define grouping (as factor) and insert space in the end for pretty legend labels
+  # define grouping, colouring and legend names
   if(is.null(group)) {
     group <- as.factor(x)
     palette <- chart_colours()[1]
