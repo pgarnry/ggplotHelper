@@ -17,7 +17,11 @@ line_chart(df, y, x, group = NULL, title = NULL, sub.title = NULL,
 
 \item{x}{specifying column name in df that should be x variable}
 
+\item{group}{specifies the label for splitting data into multiple lines}
+
 \item{title}{character string specifying chart title}
+
+\item{sub.title}{character string specifying chart sub title}
 
 \item{x.title}{character string specifying x-axis title}
 
@@ -26,12 +30,32 @@ line_chart(df, y, x, group = NULL, title = NULL, sub.title = NULL,
 \item{vline}{numeric specifying position of vertical line}
 
 \item{hline}{numeric specifying position of horizontal line}
+
+\item{x.interval}{numeric used to set breaks when scaling the x variable}
+
+\item{date.format}{character vector specifying the date label (see details)}
+
+\item{min.lim}{numeric setting the minimum value on y-axis}
+
+\item{max.lim}{numeric setting the maximum value on y-axis}
+
+\item{lower.ribbon}{character string specifying column with values for lower ribbon}
+
+\item{upper.ribbon}{character string specifying column with values for upper ribbon}
+
+\item{legend.names}{character vector setting custom legend names}
+
+\item{ribbon.names}{character string specifying custom legend name for ribbon}
 }
 \description{
 This function is a convinient overlay for creating a beautiful line
 plot using ggplot2
 }
 \details{
+Format codes for time series classes are defined in strftime. If date.format is
+set to NULL the date format will be set to the most used format for each time
+series class.
+
 The ellipsis is used to pass on arguments to the grey_theme function. Primary
 use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
 }
