@@ -195,18 +195,18 @@ line_chart <- function(df, y, x, group = NULL, title = NULL, sub.title = NULL,
   } else {
 
     # generate simple line chart
-    g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) + {
-                if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)
-                } + {
-                if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)
-                } +
+    g <- ggplot(df, aes_string(x = x, y = y, group = group), environment = environment()) +
                 geom_line(aes(colour = id), size = 1.2) +
                 scale_colour_manual(name = id, values = palette) +
                 ggtitle(chart.title) +
                 labs(x = x.title, y = y.title) +
                 scale_x_continuous(expand = c(.01, 0)) +
                 scale_y_continuous(expand = c(.01, 0)) +
-                grey_theme(...)
+                grey_theme(...) + {
+                  if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)
+                } + {
+                  if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)
+                }
 
   }
 
