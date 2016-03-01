@@ -4,18 +4,18 @@
 \alias{line_chart}
 \title{Create line chart}
 \usage{
-line_chart(df, y, x, group = NULL, title = NULL, sub.title = NULL,
+line_chart(data, y, x, group = NULL, title = NULL, sub.title = NULL,
   x.title = NULL, y.title = NULL, vline = NULL, hline = NULL,
-  x.interval = NULL, date.format = NULL, min.lim = NULL, max.lim = NULL,
-  lower.ribbon = NULL, upper.ribbon = NULL, legend.names = NULL,
+  x.interval = NULL, date.format = NULL, y.min = NULL, y.max = NULL,
+  ribbon.lwr = NULL, ribbon.upr = NULL, legend.names = NULL,
   ribbon.names = NULL, ...)
 }
 \arguments{
-\item{df}{data frame containing data for plotting}
+\item{data}{data frame containing data for plotting}
 
-\item{y}{specifying column name in df that should be y variable}
+\item{y}{specifying column name in data that should be y variable}
 
-\item{x}{specifying column name in df that should be x variable}
+\item{x}{specifying column name in data that should be x variable}
 
 \item{group}{specifies the label for splitting data into multiple lines}
 
@@ -31,17 +31,17 @@ line_chart(df, y, x, group = NULL, title = NULL, sub.title = NULL,
 
 \item{hline}{numeric specifying position of horizontal line}
 
-\item{x.interval}{numeric used to set breaks when scaling the x variable}
+\item{x.interval}{numeric used to set number of breaks when scaling the x variable}
 
 \item{date.format}{character vector specifying the date label (see details)}
 
-\item{min.lim}{numeric setting the minimum value on y-axis}
+\item{y.min}{numeric setting the minimum value on y-axis}
 
-\item{max.lim}{numeric setting the maximum value on y-axis}
+\item{y.max}{numeric setting the maximum value on y-axis}
 
-\item{lower.ribbon}{character string specifying column with values for lower ribbon}
+\item{ribbon.lwr}{character string specifying column with values for lower ribbon}
 
-\item{upper.ribbon}{character string specifying column with values for upper ribbon}
+\item{ribbon.upr}{character string specifying column with values for upper ribbon}
 
 \item{legend.names}{character vector setting custom legend names}
 
@@ -58,5 +58,7 @@ series class.
 
 The ellipsis is used to pass on arguments to the grey_theme function. Primary
 use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
+Arguments can also be sent to grey_theme function to adjust plot margins - see function
+for more details.
 }
 
