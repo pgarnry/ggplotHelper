@@ -1,7 +1,7 @@
 #' Function for plotting beautiful barcharts in ggplot
-#' @param df data frame containing data for plotting
-#' @param y character string specifying column name in df that should be y variable
-#' @param x character string specifying column name in df that should be x variable
+#' @param data data frame containing data for plotting
+#' @param y character string specifying column name in data that should be y variable
+#' @param x character string specifying column name in data that should be x variable
 #' @param title character string specifying chart title
 #' @param sub.title character string specifying chart sub title
 #' @param flip logical indicating whether barchart should be flipped or not
@@ -26,13 +26,13 @@
 #' scale.y = c(0, 40, 5))
 #' @export
 
-bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
+bar_chart <- function(data, y, x, title = NULL, sub.title = NULL,
                       flip = FALSE, y.title = NULL, x.title = NULL,
                       decreasing = NULL, bar.colour.name = NULL,
                       scale.y = NULL, ...) {
 
   # stop if input object is not a data.frame
-  if (!is.data.frame(df)) stop("Input object has to be data.frame")
+  if (!is.data.frame(data)) stop("Input object has to be data.frame")
 
   if (is.null(y)) stop("y should correspond to a variable name in input data frame")
   if (is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -48,10 +48,10 @@ bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
   # changing the ordering of y values
   if (!is.null(decreasing)) {
     if (decreasing) {
-      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = F), x])
+      data[, x] <- factor(data[, x], levels = data[order(data[, y], decreasing = F), x])
     }
     if (!decreasing) {
-      df[, x] <- factor(df[, x], levels = df[order(df[, y], decreasing = T), x])
+      data[, x] <- factor(data[, x], levels = data[order(data[, y], decreasing = T), x])
     }
   }
 
@@ -65,13 +65,13 @@ bar_chart <- function(df, y, x, title = NULL, sub.title = NULL,
   }
 
   # setting colours
-  palette <- rep(chart_colours()[1], nrow(df))
+  palette <- rep(chart_colours()[1], nrow(data))
   if (!is.null(bar.colour.name)) {
-    palette[match(bar.colour.name, levels(df[, x]))] <- "#f4a582"
+    palette[match(bar.colour.name, levels(data[, x]))] <- "#f4a582"
   }
 
   # creating chart
-  g <- ggplot(df, aes_string(y = y, x = x), environment = environment()) +
+  g <- ggplot(data, aes_string(y = y, x = x), environment = environment()) +
     geom_bar(stat = "identity", fill = palette) +
     ggtitle(chart.title) +
     labs(x = x.title, y = y.title) +

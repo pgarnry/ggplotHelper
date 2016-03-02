@@ -2,7 +2,7 @@
 #'
 #' This function is a convinient overlay for creating a beautiful scatter
 #' plot using ggplot2
-#' @param df data frame containing data for plotting
+#' @param data data frame containing data for plotting
 #' @param x character string specifying name of x variable in data frame
 #' @param y character
 #' @param x.names character string specifying column name of names for
@@ -27,12 +27,12 @@
 #' sub.title = "(per groups of cylinders)", vline = TRUE)
 #' @export
 
-scatter_chart <- function(df, x, y, x.names = NULL, x.names.show = NULL,
+scatter_chart <- function(data, x, y, x.names = NULL, x.names.show = NULL,
                           title = NULL, sub.title = NULL, y.title = NULL, x.title = NULL,
                           x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, ...) {
 
   # stop if input object is not a data.frame
-  if(!is.data.frame(df)) stop("Input object has to be data.frame")
+  if(!is.data.frame(data)) stop("Input object has to be data.frame")
 
   # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -58,51 +58,51 @@ scatter_chart <- function(df, x, y, x.names = NULL, x.names.show = NULL,
   }
 
   # calculate interquartile range
-  iqr.y <- (quantile(df[, y], prob = .75) - quantile(df[, y], prob = .25)) * 3
-  iqr.x <- (quantile(df[, x], prob = .75) - quantile(df[, x], prob = .25)) * 3
+  iqr.y <- (quantile(data[, y], prob = .75) - quantile(data[, y], prob = .25)) * 3
+  iqr.x <- (quantile(data[, x], prob = .75) - quantile(data[, x], prob = .25)) * 3
 
   # select y and x observations based on interquartile range
-  sel.y <- which(df[, y] < mean(df[, y]) + iqr.y & df[, y] > mean(df[, y]) - iqr.y)
-  sel.x <- which(df[, x] < mean(df[, x]) + iqr.x & df[, x] > mean(df[, x]) - iqr.x)
+  sel.y <- which(data[, y] < mean(data[, y]) + iqr.y & data[, y] > mean(data[, y]) - iqr.y)
+  sel.x <- which(data[, x] < mean(data[, x]) + iqr.x & data[, x] > mean(data[, x]) - iqr.x)
 
   # adjust input data frame with selected observations above
-  df.adj <- df[intersect(sel.x, sel.y), ]
+  data.adj <- data[intersect(sel.x, sel.y), ]
 
   # fit a linear regression on trimmed data
-  fit <- lm(paste(y, "~", x), df.adj)
+  fit <- lm(paste(y, "~", x), data.adj)
 
   # calculate prediction interval
-  pred <- predict(fit, newdata = df, interval = "prediction", level = 0.683)
+  pred <- predict(fit, newdata = data, interval = "prediction", level = 0.683)
 
   # insert fit, lower and upper bound into input data frame
-  df$fit <- pred[, "fit"]
-  df$lwr <- pred[, "lwr"]
-  df$upr <- pred[, "upr"]
+  data$fit <- pred[, "fit"]
+  data$lwr <- pred[, "lwr"]
+  data$upr <- pred[, "upr"]
 
-  fit.spread <- abs(df[, y] - df$fit)
+  fit.spread <- abs(data[, y] - data$fit)
 
   # define point.names
   if(!is.null(x.names)) {
-    if(!is.character(df[, x.names])) stop("x.names should have class character")
-    point.names <- df[, x.names]
+    if(!is.character(data[, x.names])) stop("x.names should have class character")
+    point.names <- data[, x.names]
     point.names[-rev(order(fit.spread))[1:x.names.show]] <- ""
   } else {
-    point.names <- rep("", nrow(df))
+    point.names <- rep("", nrow(data))
   }
 
   # if NULL then it automatically sets minimum and maximum limits on x axis
-  if(is.null(x.min)) x.min <- floor(min(df[, x]))
-  if(is.null(x.max)) x.max <- ceiling(max(df[, x]))
+  if(is.null(x.min)) x.min <- floor(min(data[, x]))
+  if(is.null(x.max)) x.max <- ceiling(max(data[, x]))
 
   # if NULL then it automatically sets maximum limits on x axis
-  if(is.null(y.min)) y.min <- floor(min(df$lwr))
-  if(is.null(y.max)) y.max <- ceiling(max(df$upr))
+  if(is.null(y.min)) y.min <- floor(min(data$lwr))
+  if(is.null(y.max)) y.max <- ceiling(max(data$upr))
 
   # plot scatter chart with regression and prediction interval
-  g <- ggplot(df, aes_string(x = x, y = y, ymin = "lwr", ymax = "upr"), environment = environment()) +
+  g <- ggplot(data, aes_string(x = x, y = y, ymin = "lwr", ymax = "upr"), environment = environment()) +
               geom_point(shape = 19, cex = 3, colour = point.colour) +
               geom_text(aes(label = point.names), hjust = -0.15, vjust = 0.5, colour = point.colour, size = 5) +
-              geom_line(data = df, aes_string(y = "fit", x = x), colour = line.colour, size = 1) +
+              geom_line(data = data, aes_string(y = "fit", x = x), colour = line.colour, size = 1) +
               geom_ribbon(aes(fill = ribbon.colour), alpha = .2) +
               scale_fill_manual(values = ribbon.colour,
                                 labels = ribbon.legend) +
@@ -110,7 +110,7 @@ scatter_chart <- function(df, x, y, x.names = NULL, x.names.show = NULL,
               scale_y_continuous(limits = c(y.min, y.max)) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
-              grey_theme()
+              grey_theme(...)
 
   return(g)
 

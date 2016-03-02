@@ -2,7 +2,7 @@
 #'
 #' This function is a convinient overlay for creating a beautiful density
 #' plot using ggplot2
-#' @param df data frame containing data for plotting
+#' @param data data frame containing data for plotting
 #' @param x character string specifying name of x variable in data frame
 #' @param group character string for grouping of x
 #' @param title character string specifying chart title
@@ -31,13 +31,13 @@
 #' sub.title = "(per groups of cylinders)", vline = TRUE)
 #' @export
 
-density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
+density_chart <- function(data, x, group = NULL, title = NULL, sub.title = NULL,
                           legend.names = NULL, y.title = NULL, x.title = NULL,
                           transparency = .3, min.lim = NULL, max.lim = NULL,
                           vline = FALSE, vline.custom = NULL, ...) {
 
   # stop if input object is not a data.frame
-  if(!is.data.frame(df)) stop("Input object has to be data.frame")
+  if(!is.data.frame(data)) stop("Input object has to be data.frame")
 
   # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
@@ -50,17 +50,17 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
       legend.names <- paste(" ", x)
     }
     if(vline) {
-      vline.df <- data.frame(median = median(df[, x]))
+      vline.data <- data.frame(median = median(data[, x]))
     }
   } else {
-    df[, group] <- as.factor(df[, group])
-    palette <- chart_colours()[1:nlevels(df[, group])]
+    data[, group] <- as.factor(data[, group])
+    palette <- chart_colours()[1:nlevels(data[, group])]
     if(is.null(legend.names)) {
-      legend.names <- paste(" ", as.character(levels(df[, group])), "   ")
+      legend.names <- paste(" ", as.character(levels(data[, group])), "   ")
     }
     if(vline) {
-      vline.df <- aggregate(df[, x], list(df[, group]), median)
-      colnames(vline.df) <- c("group", "median")
+      vline.data <- aggregate(data[, x], list(data[, group]), median)
+      colnames(vline.data) <- c("group", "median")
     }
   }
 
@@ -76,17 +76,17 @@ density_chart <- function(df, x, group = NULL, title = NULL, sub.title = NULL,
   }
 
   # if NULL then it automatically sets minimum limits on x axis
-  if(is.null(min.lim)) min.lim <- floor(mean(df[, x]) - 3 * sd(df[, x]))
+  if(is.null(min.lim)) min.lim <- floor(mean(data[, x]) - 3 * sd(data[, x]))
 
   # if NULL then it automatically sets maximum limits on x axis
-  if(is.null(max.lim)) max.lim <- ceiling(mean(df[, x]) + 3 * sd(df[, x]))
+  if(is.null(max.lim)) max.lim <- ceiling(mean(data[, x]) + 3 * sd(data[, x]))
 
-  g <- ggplot(df, aes_string(x = x, fill = group), environment = environment()) +
+  g <- ggplot(data, aes_string(x = x, fill = group), environment = environment()) +
     geom_density(alpha = transparency, linetype = 0) +
     scale_fill_manual(values = palette,
                       labels = legend.names) +
     scale_x_continuous(limits=c(min.lim, max.lim)) + {
-      if(vline) geom_vline(data = vline.df, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
+      if(vline) geom_vline(data = vline.data, aes(xintercept = median), color = palette, linetype = "dashed", size = 1)
     } + {
       if(is.numeric(vline.custom)) geom_vline(xintercept = vline.custom, color = "#636363", size = 1)
     } +

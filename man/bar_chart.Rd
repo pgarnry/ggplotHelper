@@ -4,16 +4,16 @@
 \alias{bar_chart}
 \title{Function for plotting beautiful barcharts in ggplot}
 \usage{
-bar_chart(df, y, x, title = NULL, sub.title = NULL, flip = FALSE,
+bar_chart(data, y, x, title = NULL, sub.title = NULL, flip = FALSE,
   y.title = NULL, x.title = NULL, decreasing = NULL,
   bar.colour.name = NULL, scale.y = NULL, ...)
 }
 \arguments{
-\item{df}{data frame containing data for plotting}
+\item{data}{data frame containing data for plotting}
 
-\item{y}{character string specifying column name in df that should be y variable}
+\item{y}{character string specifying column name in data that should be y variable}
 
-\item{x}{character string specifying column name in df that should be x variable}
+\item{x}{character string specifying column name in data that should be x variable}
 
 \item{title}{character string specifying chart title}
 

@@ -4,16 +4,16 @@
 \alias{box_chart}
 \title{Create box chart}
 \usage{
-box_chart(df, y, x = NULL, title = NULL, sub.title = NULL, flip = FALSE,
-  legend.names = NULL, y.title = NULL, x.title = NULL,
+box_chart(data, y, x = NULL, title = NULL, sub.title = NULL,
+  flip = FALSE, legend.names = NULL, y.title = NULL, x.title = NULL,
   box.colours = FALSE, min.lim = NULL, max.lim = NULL, ...)
 }
 \arguments{
-\item{df}{data frame containing data for plotting}
+\item{data}{data frame containing data for plotting}
 
-\item{y}{character string specifying column name in df that should be y variable}
+\item{y}{character string specifying column name in data that should be y variable}
 
-\item{x}{character string specifying column name in df that should be x variable}
+\item{x}{character string specifying column name in data that should be x variable}
 
 \item{title}{character string specifying chart title}
 

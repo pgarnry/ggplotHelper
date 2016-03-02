@@ -4,13 +4,13 @@
 \alias{density_chart}
 \title{Create density chart}
 \usage{
-density_chart(df, x, group = NULL, title = NULL, sub.title = NULL,
+density_chart(data, x, group = NULL, title = NULL, sub.title = NULL,
   legend.names = NULL, y.title = NULL, x.title = NULL,
   transparency = 0.3, min.lim = NULL, max.lim = NULL, vline = FALSE,
   vline.custom = NULL, ...)
 }
 \arguments{
-\item{df}{data frame containing data for plotting}
+\item{data}{data frame containing data for plotting}
 
 \item{x}{character string specifying name of x variable in data frame}
 

@@ -1,9 +1,9 @@
 #' Create box chart
 #'
 #' This function creates an overlay plotting a bar chart in ggplot
-#' @param df data frame containing data for plotting
-#' @param y character string specifying column name in df that should be y variable
-#' @param x character string specifying column name in df that should be x variable
+#' @param data data frame containing data for plotting
+#' @param y character string specifying column name in data that should be y variable
+#' @param x character string specifying column name in data that should be x variable
 #' @param title character string specifying chart title
 #' @param sub.title character string specifying chart sub title
 #' @param flip logical indicating whether box chart should be flipped or not
@@ -23,13 +23,13 @@
 #' x.title = "Cylinders", legend.position = "none")
 #' @export
 
-box_chart <- function(df, y, x = NULL, title = NULL, sub.title = NULL,
+box_chart <- function(data, y, x = NULL, title = NULL, sub.title = NULL,
                       flip = FALSE, legend.names = NULL, y.title = NULL,
                       x.title = NULL, box.colours = FALSE,
                       min.lim = NULL, max.lim = NULL, ...) {
 
   # stop if input object is not a data.frame
-  if (!is.data.frame(df)) stop("Input object has to be data.frame")
+  if (!is.data.frame(data)) stop("Input object has to be data.frame")
 
   # stop if variable name in data frame for values not set
   if (is.null(y)) stop("y should correspond to a variable name in input data frame")
@@ -39,14 +39,14 @@ box_chart <- function(df, y, x = NULL, title = NULL, sub.title = NULL,
     x <- as.factor(0)
     palette <- chart_colours()[1]
   } else {
-    df[, x] <- as.factor(df[, x])
+    data[, x] <- as.factor(data[, x])
     if (box.colours){
-      palette <- chart_colours()[1:nlevels(df[, x])]
+      palette <- chart_colours()[1:nlevels(data[, x])]
     } else {
-      palette <- rep(chart_colours()[1], nlevels(df[, x]))
+      palette <- rep(chart_colours()[1], nlevels(data[, x]))
     }
     if (is.null(legend.names)) {
-      legend.names <- paste(" ", as.character(levels(df[, x])), "   ")
+      legend.names <- paste(" ", as.character(levels(data[, x])), "   ")
     }
   }
 
@@ -62,7 +62,7 @@ box_chart <- function(df, y, x = NULL, title = NULL, sub.title = NULL,
   }
 
   # create ggplot
-  g <- ggplot(df, aes_string(y = y, x = x, fill = x), environment = environment()) +
+  g <- ggplot(data, aes_string(y = y, x = x, fill = x), environment = environment()) +
     geom_boxplot(alpha = .7, size = .7, outlier.colour = "#d7191c", fatten = 1.2) +
     scale_fill_manual(values = palette,
                       labels = legend.names) +

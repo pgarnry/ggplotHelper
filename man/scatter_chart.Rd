@@ -4,12 +4,12 @@
 \alias{scatter_chart}
 \title{Create scatter chart}
 \usage{
-scatter_chart(df, x, y, x.names = NULL, x.names.show = NULL, title = NULL,
-  sub.title = NULL, y.title = NULL, x.title = NULL, x.min = NULL,
-  x.max = NULL, y.min = NULL, y.max = NULL, ...)
+scatter_chart(data, x, y, x.names = NULL, x.names.show = NULL,
+  title = NULL, sub.title = NULL, y.title = NULL, x.title = NULL,
+  x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, ...)
 }
 \arguments{
-\item{df}{data frame containing data for plotting}
+\item{data}{data frame containing data for plotting}
 
 \item{x}{character string specifying name of x variable in data frame}
 
