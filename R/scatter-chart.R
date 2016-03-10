@@ -5,6 +5,8 @@
 #' @param data data frame containing data for plotting
 #' @param x character string specifying name of x variable in data frame
 #' @param y character
+#' @param na.rm a logical indicating whether NA values should be stripped
+#' before the computation proceeds
 #' @param x.names character string specifying column name of names for
 #' textual annotations
 #' @param x.names.show numeric indicating how many point names should be shown (details)
@@ -27,16 +29,22 @@
 #' sub.title = "(per groups of cylinders)", vline = TRUE)
 #' @export
 
-scatter_chart <- function(data, x, y, x.names = NULL, x.names.show = NULL,
+scatter_chart <- function(data, x, y, na.rm = FALSE, x.names = NULL, x.names.show = NULL,
                           title = NULL, sub.title = NULL, y.title = NULL, x.title = NULL,
                           x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, ...) {
 
-  # stop if input object is not a data.frame
+  # stop if input object is not a data.frame and x and y variables are not defined
   if(!is.data.frame(data)) stop("Input object has to be data.frame")
-
-  # stop if variable name in data frame for values not set
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
   if(is.null(y)) stop("y should correspond to a variable name in input data frame")
+
+  # stop if NA values exist in y varible
+  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
+
+  # remove rows in data.frame if NA values exist in y variable
+  if (na.rm) {
+    data <- data[-which(is.na(data[, y])), ]
+  }
 
   # define chart colours
   point.colour <- chart_colours()[1]

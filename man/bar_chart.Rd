@@ -4,8 +4,8 @@
 \alias{bar_chart}
 \title{Function for plotting beautiful barcharts in ggplot}
 \usage{
-bar_chart(data, y, x, title = NULL, sub.title = NULL, flip = FALSE,
-  y.title = NULL, x.title = NULL, decreasing = NULL,
+bar_chart(data, y, x, na.rm = FALSE, title = NULL, sub.title = NULL,
+  flip = FALSE, y.title = NULL, x.title = NULL, decreasing = NULL,
   bar.colour.name = NULL, scale.y = NULL, ...)
 }
 \arguments{
@@ -14,6 +14,9 @@ bar_chart(data, y, x, title = NULL, sub.title = NULL, flip = FALSE,
 \item{y}{character string specifying column name in data that should be y variable}
 
 \item{x}{character string specifying column name in data that should be x variable}
+
+\item{na.rm}{a logical indicating whether NA values should be stripped
+before the computation proceeds}
 
 \item{title}{character string specifying chart title}
 

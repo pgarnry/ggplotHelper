@@ -2,6 +2,8 @@
 #' @param data data frame containing data for plotting
 #' @param y character string specifying column name in data that should be y variable
 #' @param x character string specifying column name in data that should be x variable
+#' @param na.rm a logical indicating whether NA values should be stripped
+#' before the computation proceeds
 #' @param title character string specifying chart title
 #' @param sub.title character string specifying chart sub title
 #' @param flip logical indicating whether barchart should be flipped or not
@@ -26,24 +28,32 @@
 #' scale.y = c(0, 40, 5))
 #' @export
 
-bar_chart <- function(data, y, x, title = NULL, sub.title = NULL,
-                      flip = FALSE, y.title = NULL, x.title = NULL,
-                      decreasing = NULL, bar.colour.name = NULL,
-                      scale.y = NULL, ...) {
+bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
+                      sub.title = NULL, flip = FALSE, y.title = NULL,
+                      x.title = NULL, decreasing = NULL,
+                      bar.colour.name = NULL, scale.y = NULL, ...) {
 
-  # stop if input object is not a data.frame
+  # stop if input object is not a data.frame and x and y variables not specified
   if (!is.data.frame(data)) stop("Input object has to be data.frame")
-
   if (is.null(y)) stop("y should correspond to a variable name in input data frame")
   if (is.null(x)) stop("x should correspond to a variable name in input data frame")
+
+  # stop if NA values exist in y varible
+  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
+
+  # remove rows in data.frame if NA values exist in y variable
+  if (na.rm) {
+    data <- data[-which(is.na(data[, y])), ]
+  }
 
   # define chart title object
   if (!is.null(title) & !is.null(sub.title)) {
     chart.title <- bquote(atop(.(title, "\n"), atop(.(sub.title), "")))
   } else if (!is.null(title) & is.null(sub.title)) {
     chart.title <- paste(title, "\n")
-  } else
+  } else {
     chart.title <- NULL
+  }
 
   # changing the ordering of y values
   if (!is.null(decreasing)) {

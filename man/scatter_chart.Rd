@@ -4,9 +4,10 @@
 \alias{scatter_chart}
 \title{Create scatter chart}
 \usage{
-scatter_chart(data, x, y, x.names = NULL, x.names.show = NULL,
-  title = NULL, sub.title = NULL, y.title = NULL, x.title = NULL,
-  x.min = NULL, x.max = NULL, y.min = NULL, y.max = NULL, ...)
+scatter_chart(data, x, y, na.rm = FALSE, x.names = NULL,
+  x.names.show = NULL, title = NULL, sub.title = NULL, y.title = NULL,
+  x.title = NULL, x.min = NULL, x.max = NULL, y.min = NULL,
+  y.max = NULL, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -14,6 +15,9 @@ scatter_chart(data, x, y, x.names = NULL, x.names.show = NULL,
 \item{x}{character string specifying name of x variable in data frame}
 
 \item{y}{character}
+
+\item{na.rm}{a logical indicating whether NA values should be stripped
+before the computation proceeds}
 
 \item{x.names}{character string specifying column name of names for
 textual annotations}
