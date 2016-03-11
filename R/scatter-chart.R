@@ -38,13 +38,13 @@ scatter_chart <- function(data, x, y, na.rm = FALSE, x.names = NULL, x.names.sho
   if(is.null(x)) stop("x should correspond to a variable name in input data frame")
   if(is.null(y)) stop("y should correspond to a variable name in input data frame")
 
-  # stop if NA values exist in y varible
-  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
-
   # remove rows in data.frame if NA values exist in y variable
   if (na.rm) {
     data <- data[-which(is.na(data[, y])), ]
   }
+
+  # stop if NA values exist in y varible
+  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
 
   # define chart colours
   point.colour <- chart_colours()[1]

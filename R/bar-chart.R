@@ -38,13 +38,13 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
   if (is.null(y)) stop("y should correspond to a variable name in input data frame")
   if (is.null(x)) stop("x should correspond to a variable name in input data frame")
 
-  # stop if NA values exist in y varible
-  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
-
   # remove rows in data.frame if NA values exist in y variable
   if (na.rm) {
     data <- data[-which(is.na(data[, y])), ]
   }
+
+  # stop if NA values exist in y varible
+  if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
 
   # define chart title object
   if (!is.null(title) & !is.null(sub.title)) {
