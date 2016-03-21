@@ -40,7 +40,7 @@ scatter_chart <- function(data, x, y, na.rm = FALSE, x.names = NULL, x.names.sho
 
   # remove rows in data.frame if NA values exist in y variable
   if (na.rm) {
-    data <- data[-which(is.na(data[, y])), ]
+    if(any(is.na(data[, y]))) data <- data[-which(is.na(data[, y])), ]
   }
 
   # stop if NA values exist in y varible

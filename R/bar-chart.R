@@ -40,7 +40,7 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
 
   # remove rows in data.frame if NA values exist in y variable
   if (na.rm) {
-    data <- data[-which(is.na(data[, y])), ]
+    if(any(is.na(data[, y]))) data <- data[-which(is.na(data[, y])), ]
   }
 
   # stop if NA values exist in y varible
