@@ -2,7 +2,7 @@ Package: ggplotHelper
 Title: Helper functions for great looking ggplots in R
 Description: Collection of styling and design function for easily plotting
     ggplots
-Version: 0.0.1
+Version: 0.1.0
 Date: 2015-12-16
 Maintainer: Peter Garnry <pg@saxobank.com>
 Author: Peter Garnry

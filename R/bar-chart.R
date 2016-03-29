@@ -22,6 +22,7 @@
 #'
 #' Otherwise see example for clarification on the scale.y variable.
 #' @examples
+#' data(mtcars)
 #' mtcars$name <- rownames(mtcars)
 #' bar_chart(mtcars, "mpg", "name", flip = TRUE,
 #' title = "Miles per gallon across different car models",
@@ -82,17 +83,16 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
 
   # creating chart
   g <- ggplot(data, aes_string(y = y, x = x), environment = environment()) +
-    geom_bar(stat = "identity", fill = palette) +
-    ggtitle(chart.title) +
-    labs(x = x.title, y = y.title) +
-    grey_theme(...) + {
-      if (scale.y) scale_y_continuous(limits = y.limits,
-                                      breaks = y.breaks)
-    } + {
-      if (flip) coord_flip()
-    } + {
-      if (flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())
-    }
+              geom_bar(stat = "identity", fill = palette) +
+              ggtitle(chart.title) +
+              labs(x = x.title, y = y.title) +
+              grey_theme() + {
+                if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)
+              } + {
+                if (flip) coord_flip()
+              } + {
+                if (flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())
+              }
 
   return(g)
 

@@ -48,6 +48,7 @@ maximum value of 60 with breaks for every 10 between the minimum and maximum val
 Otherwise see example for clarification on the scale.y variable.
 }
 \examples{
+data(mtcars)
 mtcars$name <- rownames(mtcars)
 bar_chart(mtcars, "mpg", "name", flip = TRUE,
 title = "Miles per gallon across different car models",
