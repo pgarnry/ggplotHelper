@@ -26,7 +26,8 @@
 #' mtcars$name <- rownames(mtcars)
 #' bar_chart(mtcars, "mpg", "name", flip = TRUE,
 #' title = "Miles per gallon across different car models",
-#' scale.y = c(0, 40, 5))
+#' scale.y = c(0, 40, 5),
+#' decreasing = TRUE)
 #' @export
 
 bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
@@ -46,6 +47,10 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
 
   # stop if NA values exist in y varible
   if (any(is.na(data[, y]))) stop("NA values exist in y variable. Set na.rm = TRUE or remove NA values from data.frame manually")
+
+  # if x and y axis titles are not NULL include line break
+  if(!is.null(x.title)) x.title <- paste("\n", x.title)
+  if(!is.null(y.title)) y.title <- paste(y.title, "\n")
 
   # define chart title object
   if (!is.null(title) & !is.null(sub.title)) {

@@ -52,6 +52,7 @@ data(mtcars)
 mtcars$name <- rownames(mtcars)
 bar_chart(mtcars, "mpg", "name", flip = TRUE,
 title = "Miles per gallon across different car models",
-scale.y = c(0, 40, 5))
+scale.y = c(0, 40, 5),
+decreasing = TRUE)
 }
 
