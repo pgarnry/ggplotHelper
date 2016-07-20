@@ -200,14 +200,14 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
       data <- data.frame(x = 1:length(y),
                          y = y)
 
-      # generate
+      # generate a simple line chart with no pre-defined x-variable
       g <- ggplot(data, aes(x = x, y = y)) +
                   geom_line(aes(colour = line.colours), size = 1.2) +
                   scale_colour_manual(values = line.colours, labels = legend.names) +
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(..., legend.position = "none") + {
+                  grey_theme(...) + {
                   if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)} + {
                   if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)} + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {

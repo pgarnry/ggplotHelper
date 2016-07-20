@@ -4,7 +4,8 @@
 \alias{grey_theme}
 \title{Function for designing a beautiful grey theme for ggplot2}
 \usage{
-grey_theme(legend.position = "bottom", plot.margin = c(0.7, 1.2, 0.5, 0.5))
+grey_theme(legend.position = "bottom", base.size = 10,
+  plot.margin = c(0.7, 1.2, 0.5, 0.5))
 }
 \arguments{
 \item{legend.position}{character string specifying the legend position

@@ -6,7 +6,7 @@
 \usage{
 bar_chart(data, y, x, na.rm = FALSE, title = NULL, sub.title = NULL,
   flip = FALSE, y.title = NULL, x.title = NULL, decreasing = NULL,
-  bar.colour.name = NULL, scale.y = NULL, ...)
+  bar.colour.name = NULL, scale.y = NULL, bar.width = NULL, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}

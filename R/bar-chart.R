@@ -32,8 +32,8 @@
 
 bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
                       sub.title = NULL, flip = FALSE, y.title = NULL,
-                      x.title = NULL, decreasing = NULL,
-                      bar.colour.name = NULL, scale.y = NULL, ...) {
+                      x.title = NULL, decreasing = NULL, bar.colour.name = NULL,
+                      scale.y = NULL, bar.width = NULL, ...) {
 
   # stop if input object is not a data.frame and x and y variables not specified
   if (!is.data.frame(data)) stop("Input object has to be data.frame")
@@ -88,10 +88,10 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
 
   # creating chart
   g <- ggplot(data, aes_string(y = y, x = x), environment = environment()) +
-              geom_bar(stat = "identity", fill = palette) +
+              geom_bar(stat = "identity", fill = palette, width = bar.width) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
-              grey_theme() + {
+              grey_theme(...) + {
                 if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)
               } + {
                 if (flip) coord_flip()

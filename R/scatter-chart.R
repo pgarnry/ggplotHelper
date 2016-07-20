@@ -25,6 +25,7 @@
 #' absolute distance between actual and fitted values will have their name
 #' shown next to the point.
 #' @examples
+#' data(mtcars)
 #' density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon",
 #' sub.title = "(per groups of cylinders)", vline = TRUE)
 #' @export

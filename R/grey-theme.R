@@ -6,7 +6,7 @@
 #' @import ggplot2
 #' @export
 
-grey_theme <- function(legend.position = "bottom",
+grey_theme <- function(legend.position = "bottom", base.size = 10,
                        plot.margin = c(0.7, 1.2, 0.5, 0.5)) {
 
   # Generate the colors for the chart procedurally with RColorBrewer
@@ -19,6 +19,8 @@ grey_theme <- function(legend.position = "bottom",
 
   # Begin construction of chart
   theme_bw() +
+
+  theme(text = element_text(size = base.size)) +
 
   # Set the entire chart region to a light gray color
   theme(panel.background = element_rect(fill = color.background, color = color.background)) +
@@ -33,17 +35,17 @@ grey_theme <- function(legend.position = "bottom",
   # Format the legend, but hide by default
   theme(legend.position = legend.position) +
   theme(legend.background = element_rect(fill = color.background)) +
-  theme(legend.text = element_text(size = 14, color = color.axis.title)) +
+  theme(legend.text = element_text(size = rel(1.2), color = color.axis.title)) +
   theme(legend.title = element_blank()) +
   theme(legend.key = element_blank()) +
   theme(legend.margin = grid::unit(0.3, "cm")) +
 
   # Set title and axis labels, and format these and tick marks
-  theme(plot.title = element_text(color = color.title, size = 18, vjust = 0.5)) +
-  theme(axis.text.x = element_text(size = 13, color = color.axis.text)) +
-  theme(axis.text.y = element_text(size = 13, color = color.axis.text)) +
-  theme(axis.title.x = element_text(size = 14, color = color.axis.title, hjust = 0.5)) +
-  theme(axis.title.y = element_text(size = 14, color = color.axis.title, vjust = 0.5)) +
+  theme(plot.title    = element_text(color = color.title, size = rel(1.6), vjust = 0.5)) +
+  theme(axis.text.x   = element_text(size = rel(1), color = color.axis.text)) +
+  theme(axis.text.y   = element_text(size = rel(1), color = color.axis.text)) +
+  theme(axis.title.x  = element_text(size = rel(1.2), color = color.axis.title, hjust = 0.5)) +
+  theme(axis.title.y  = element_text(size = rel(1.2), color = color.axis.title, vjust = 0.5)) +
 
   # Plot margins
   theme(plot.margin = grid::unit(plot.margin, "cm"))
