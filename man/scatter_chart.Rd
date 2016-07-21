@@ -4,10 +4,11 @@
 \alias{scatter_chart}
 \title{Create scatter chart}
 \usage{
-scatter_chart(data, x, y, na.rm = FALSE, x.names = NULL,
-  x.names.show = NULL, title = NULL, sub.title = NULL, y.title = NULL,
-  x.title = NULL, x.min = NULL, x.max = NULL, y.min = NULL,
-  y.max = NULL, ...)
+scatter_chart(data, x, y, na.rm = FALSE, name.label = NULL,
+  name.labels.show = NULL, label.just = NULL, title = NULL,
+  sub.title = NULL, y.title = NULL, x.title = NULL, x.min = NULL,
+  x.max = NULL, y.min = NULL, y.max = NULL, prediction.interval = FALSE,
+  ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -16,13 +17,16 @@ scatter_chart(data, x, y, na.rm = FALSE, x.names = NULL,
 
 \item{y}{character}
 
-\item{na.rm}{a logical indicating whether NA values should be stripped
-before the computation proceeds}
+\item{na.rm}{a logical indicating whether NA values should be removed}
 
-\item{x.names}{character string specifying column name of names for
+\item{name.label}{character string specifying column name of names for
 textual annotations}
 
-\item{x.names.show}{numeric indicating how many point names should be shown (details)}
+\item{name.labels.show}{numeric or character string indicating either the
+number of label names to show or the specific names (details)}
+
+\item{label.just}{numeric vector with length two setting the horizontal
+and the vertical text alignment for data point labels}
 
 \item{title}{character string specifying chart title}
 
@@ -40,19 +44,24 @@ textual annotations}
 
 \item{y.max}{numeric setting maximum limit on y-axis}
 
-\item{transparency}{numeric setting the level of colour transparency}
+\item{prediction.interval}{logical indicating whether a prediction
+interval should be computed and ploted}
 }
 \description{
 This function is a convinient overlay for creating a beautiful scatter
 plot using ggplot2
 }
 \details{
-The x.names.show is based on distance between actual and fitted values.
-If x.names.show is set to 3 then the three observations with the largest
-absolute distance between actual and fitted values will have their name
-shown next to the point.
+If the name.labels.show is numeric the data point labels shown are based
+on the distance between actual and fitted y-values. If the variable is set
+to 3 then the three points with largest absolute distance between actual
+y-values and the fitted values will have their name shown. This functionality
+requires that the prediction.interval is set to TRUE.
+If the name.labels.show is a character string then names are explicitly shown
+in the scatter plot.
 }
 \examples{
+data(mtcars)
 density_chart(mtcars, "mpg", "cyl", title = "Miles per gallon",
 sub.title = "(per groups of cylinders)", vline = TRUE)
 }
