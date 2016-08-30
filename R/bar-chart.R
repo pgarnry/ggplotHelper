@@ -100,5 +100,4 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
               }
 
   return(g)
-
 }
