@@ -86,29 +86,16 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
     palette[match(bar.colour.name, levels(data[, x]))] <- "#f4a582"
   }
 
-  # calculate ratio between coordinates
-  x.max <- length(data[, x])
-  y.range <- range(data[, y], na.rm = T)
-  ratio.values <- (x.max - 1) / (y.range[2] - y.range[1])
-  ratio <- ratio.values / aspect.ratio
-
-  if (flip) {
-    ratio <- ratio^-1
-  }
-
   # creating chart
   g <- ggplot(data, aes_string(y = y, x = x), environment = environment()) +
               geom_bar(stat = "identity", fill = palette, width = bar.width) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
-              plot_theme() + {
-                if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)
-              } + {
-                if (flip) coord_flip()
-              } + {
-                if (flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())
-              } +
-              coord_fixed(ratio = ratio)
+              theme(aspect.ratio = ratio) +
+              plot_theme(...) + {
+              if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)} + {
+              if (flip) coord_flip()} + {
+              if (flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())}
 
   return(g)
 }

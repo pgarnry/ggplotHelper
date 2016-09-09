@@ -9,7 +9,8 @@
 #' @export
 
 plot_theme <- function(legend.position = "bottom", base.size = 10,
-                       plot.margin = c(0.7, 1.2, 0.5, 0.5), color.theme = "white") {
+                       plot.margin = c(0.7, 1.2, 0.5, 0.5), color.theme = "white",
+                       aspect.ratio = 1.61) {
 
   # Generate the colors for the chart procedurally with RColorBrewer
   palette <- RColorBrewer::brewer.pal("Greys", n = 9)
@@ -55,6 +56,9 @@ plot_theme <- function(legend.position = "bottom", base.size = 10,
   theme(axis.title.y  = element_text(size = rel(1.2), color = color.axis.title, vjust = 0.5)) +
 
   # Plot margins
-  theme(plot.margin = grid::unit(plot.margin, "cm"))
+  theme(plot.margin = grid::unit(plot.margin, "cm")) +
+
+  # Format aspect ratio
+  theme(aspect.ratio = aspect.ratio ^ -1)
 
 }

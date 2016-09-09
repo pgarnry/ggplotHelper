@@ -57,31 +57,19 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
     dc <- TTR::DonchianChannel(data[, c("high", "low")], n = dc.window)
   }
 
-  # calculate ratio between coordinates
-  date.range <- range(data$date, na.rm = T)
-  y.range <- range(data[, c("high", "low"), na.rm = T])
-  ratio.values <- (date.range[2] - date.range[1]) / (y.range[2] - y.range[2])
-  ratio <- ratio.values / aspect.ratio
-
   # creating chart
   g <- ggplot(data, aes(x = date)) +
-    geom_linerange(aes(ymin = low, ymax = high), size = lwd) +
-    theme_bw() +
-    labs(title = chart.title) +
-    geom_rect(aes(xmin = date - width/2 * 0.9, xmax = date + width/2 * 0.9,
-                  ymin = pmin(open, close), ymax = pmax(open, close), fill = chg)) +
-    guides(fill = FALSE, colour = FALSE) +
-    scale_fill_manual(values = c("dn" = "tomato", "up" = "slateblue1")) +
-    ggtitle(chart.title) +
-    labs(x = x.title, y = y.title) +
-    coord_fixed(ratio = ratio) +
-    scale_x_date(date_labels = "%Y-%m-%d", expand = c(.01, 0)) +
-    plot_theme(...) +
-    {
-      if (enable.Donchian) geom_path(aes(y = dc$low), colour = "gray24")
-    } + {
-      if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24")
-    }
+              geom_linerange(aes(ymin = low, ymax = high), size = lwd) +
+              geom_rect(aes(xmin = date - width/2 * 0.9, xmax = date + width/2 * 0.9,
+                            ymin = pmin(open, close), ymax = pmax(open, close), fill = chg)) +
+              guides(fill = FALSE, colour = FALSE) +
+              scale_fill_manual(values = c("dn" = "tomato", "up" = "slateblue1")) +
+              ggtitle(chart.title) +
+              labs(x = x.title, y = y.title) +
+              scale_x_date(date_labels = "%Y-%m-%d", expand = c(.01, 0)) +
+              plot_theme(...) + {
+              if (enable.Donchian) geom_path(aes(y = dc$low), colour = "gray24")} + {
+              if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24")}
 
   # Handle special case of drawing a flat bar where OHLC = Open:
   if (any(data$flat_bar, na.rm = T)) {

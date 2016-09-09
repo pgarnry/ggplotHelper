@@ -25,17 +25,17 @@
 #' set to NULL the date format will be set to the most used format for each time
 #' series class.
 #'
-#' The ellipsis is used to pass on arguments to the grey_theme function. Primary
+#' The ellipsis is used to pass on arguments to the plot_theme function. Primary
 #' use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
-#' Arguments can also be sent to grey_theme function to adjust plot margins - see function
+#' Arguments can also be sent to plot_theme function to adjust plot margins - see function
 #' for more details.
 #' @export
 
 line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub.title = NULL,
-                       x.title = NULL, y.title = NULL, vline = NULL,
-                       hline = NULL, x.interval = NULL, date.format = NULL,
-                       y.min = NULL, y.max = NULL, ribbon.lwr = NULL,
-                       ribbon.upr = NULL, legend.names = NULL, ribbon.names = NULL, ...) {
+                       x.title = NULL, y.title = NULL, vline = NULL, hline = NULL,
+                       x.interval = NULL, date.format = NULL, y.min = NULL, y.max = NULL,
+                       ribbon.lwr = NULL, ribbon.upr = NULL, legend.names = NULL,
+                       ribbon.names = NULL, aspect.ratio = 1.61, ...) {
 
   # define line colour if only numeric vector is provided
   if (is.null(data) & is.null(x)) {
@@ -110,7 +110,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
                   if (ribbon) scale_fill_manual(values = chart_colours()[1], labels = ribbon.names)} + {
                   if (ribbon) theme(legend.box = "horizontal")} + {
@@ -132,12 +132,13 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
                   if (ribbon) scale_fill_manual(values = chart_colours()[1], labels = ribbon.names)} + {
                   if (ribbon) theme(legend.box = "horizontal")} + {
                   if (is.null(x.interval)) scale_x_yearmon(format = date.format, expand = c(.01, 0)) else {
-                                           scale_x_yearmon(breaks = data[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}}
+                                           scale_x_yearmon(breaks = data[date.seq, x], labels = scales::date_format(date.format), expand = c(.01, .01))}} +
+                  theme(aspect.ratio = 1.61^-1)
 
     }
 
@@ -154,7 +155,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
                   if (ribbon) scale_fill_manual(values = chart_colours()[1], labels = ribbon.names)} + {
                   if (ribbon) theme(legend.box = "horizontal")} + {
@@ -183,7 +184,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
                   if (ribbon) scale_fill_manual(values = chart_colours()[1], labels = ribbon.names)} + {
                   if (ribbon) theme(legend.box = "horizontal")} + {
@@ -207,7 +208,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)} + {
                   if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)} + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
@@ -224,7 +225,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  grey_theme(...) + {
+                  plot_theme(...) + {
                   if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)} + {
                   if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)} + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
@@ -236,5 +237,4 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
   }
 
   return(g)
-
 }
