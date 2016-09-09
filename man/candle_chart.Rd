@@ -6,7 +6,7 @@
 \usage{
 candle_chart(data, na.rm = FALSE, title = NULL, sub.title = NULL,
   y.title = NULL, x.title = NULL, lwd = 0.2, bar.width = 1,
-  aspect.ratio = 4, enable.Donchian = T, dc.window = 10, ...)
+  enable.Donchian = T, dc.window = 10, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}

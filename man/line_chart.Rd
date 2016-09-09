@@ -8,7 +8,7 @@ line_chart(data = NULL, y, x = NULL, group = NULL, title = NULL,
   sub.title = NULL, x.title = NULL, y.title = NULL, vline = NULL,
   hline = NULL, x.interval = NULL, date.format = NULL, y.min = NULL,
   y.max = NULL, ribbon.lwr = NULL, ribbon.upr = NULL,
-  legend.names = NULL, ribbon.names = NULL, ...)
+  legend.names = NULL, ribbon.names = NULL, aspect.ratio = 1.61, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -56,9 +56,9 @@ Format codes for time series classes are defined in strftime. If date.format is
 set to NULL the date format will be set to the most used format for each time
 series class.
 
-The ellipsis is used to pass on arguments to the grey_theme function. Primary
+The ellipsis is used to pass on arguments to the plot_theme function. Primary
 use is to specify the legend.position to either "left", "right", "bottom", "top" or "none".
-Arguments can also be sent to grey_theme function to adjust plot margins - see function
+Arguments can also be sent to plot_theme function to adjust plot margins - see function
 for more details.
 }
 

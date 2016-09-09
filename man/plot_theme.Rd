@@ -5,7 +5,8 @@
 \title{Function for designing a beautiful theme for ggplot2}
 \usage{
 plot_theme(legend.position = "bottom", base.size = 10,
-  plot.margin = c(0.7, 1.2, 0.5, 0.5), color.theme = "white")
+  plot.margin = c(0.7, 1.2, 0.5, 0.5), color.theme = "white",
+  aspect.ratio = 1.61)
 }
 \arguments{
 \item{legend.position}{character string specifying the legend position (see details)}

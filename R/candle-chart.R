@@ -20,8 +20,7 @@
 
 candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
                          y.title = NULL, x.title = NULL, lwd = 0.2, bar.width = 1,
-                         aspect.ratio = 1.61, enable.Donchian = T, dc.window = 10,
-                         ...) {
+                         enable.Donchian = T, dc.window = 10, ...) {
 
   if (na.rm) data <- data[complete.cases(data),]
 
