@@ -91,7 +91,6 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
               geom_bar(stat = "identity", fill = palette, width = bar.width) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
-              theme(aspect.ratio = ratio) +
               plot_theme(...) + {
               if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)} + {
               if (flip) coord_flip()} + {

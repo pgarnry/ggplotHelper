@@ -67,9 +67,10 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
               scale_x_date(date_labels = "%Y-%m-%d", expand = c(.01, 0)) +
-              plot_theme(...) + {
+              {
               if (enable.Donchian) geom_path(aes(y = dc$low), colour = "gray24")} + {
-              if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24")}
+              if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24")} +
+              plot_theme(...) 
 
   # Handle special case of drawing a flat bar where OHLC = Open:
   if (any(data$flat_bar, na.rm = T)) {
