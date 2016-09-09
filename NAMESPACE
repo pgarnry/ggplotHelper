@@ -2,10 +2,12 @@
 
 export(bar_chart)
 export(box_chart)
+export(candle_chart)
 export(chart_colours)
 export(density_chart)
 export(grey_theme)
 export(line_chart)
+export(plot_theme)
 export(save_png)
 export(scatter_chart)
 import(ggplot2)
