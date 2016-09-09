@@ -1,17 +1,24 @@
-#' Function for designing a beautiful grey theme for ggplot2
-#' @param legend.position character string specifying the legend position
-#' (see details)
+#' Function for designing a beautiful theme for ggplot2
+#' @param legend.position character string specifying the legend position (see details)
+#' @param base.size integer. Sets base font size (see details)
+#' @param plot.margin numeric vector. Length should be four (see details)
+#' @param color.theme character string specifying the (pre-defined) color theme - either "white" or "grey"
 #' @details The ggplot2 package comes with four options for setting the
-#' legend position - "left", "right", "bottom" and "top"
+#' legend position - "left", "right", "bottom" and "top".
 #' @import ggplot2
 #' @export
 
-grey_theme <- function(legend.position = "bottom", base.size = 10,
-                       plot.margin = c(0.7, 1.2, 0.5, 0.5)) {
+plot_theme <- function(legend.position = "bottom", base.size = 10,
+                       plot.margin = c(0.7, 1.2, 0.5, 0.5), color.theme = "white") {
 
   # Generate the colors for the chart procedurally with RColorBrewer
   palette <- RColorBrewer::brewer.pal("Greys", n = 9)
-  color.background = palette[2]
+  if (color.theme == "grey") {
+    color.background = palette[2]
+  } else if (color.theme == "white") {
+    color.background = palette[1]
+  } else stop ("color.theme only takes two values: grey or white")
+
   color.grid.major = palette[3]
   color.axis.text = palette[6]
   color.axis.title = palette[7]
