@@ -21,8 +21,13 @@ plot_theme <- function(legend.position = "bottom", base.size = 10,
   } else stop ("color.theme only takes two values: grey or white")
 
   color.grid.major = palette[3]
-  color.axis.text = palette[6]
-  color.axis.title = palette[7]
+  if (color.theme == "grey") {
+    color.axis.text = palette[6]
+    color.axis.title = palette[7]
+  } else {
+    color.axis.text = palette[8]
+    color.axis.title = palette[8]
+  }
   color.title = palette[9]
 
   # Begin construction of chart
