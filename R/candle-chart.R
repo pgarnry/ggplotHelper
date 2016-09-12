@@ -62,7 +62,7 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
               geom_rect(aes(xmin = date - width/2 * 0.9, xmax = date + width/2 * 0.9,
                             ymin = pmin(open, close), ymax = pmax(open, close), fill = chg)) +
               guides(fill = FALSE, colour = FALSE) +
-              scale_fill_manual(values = c("dn" = "tomato", "up" = "slateblue1")) +
+              scale_fill_manual(values = c("dn" = "tomato", "up" = "royalblue1")) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
               scale_x_date(date_labels = "%Y-%m-%d", expand = c(.01, 0)) +
