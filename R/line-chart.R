@@ -100,7 +100,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
 
     if ("POSIXct" %in% class.x) {
 
-      if (!is.null(x.interval)) time.seq <- seq(1, length(data[, x]), x.interval)
+      if (!is.null(x.interval)) time.seq <- seq(1, length(data[, x]), floor(x.interval / length(data[, x])))
 
       # generate line chart with date class POSIXct
       g <- ggplot(data, aes_string(x = x, y = y, group = group, ymin = ribbon.lwr, ymax = ribbon.upr), environment = environment()) + {
@@ -122,7 +122,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
     if (class.x == "yearmon") {
 
       if (is.null(date.format)) date.format <- "%b %Y"
-      if (!is.null(x.interval)) date.seq <- seq(1, length(data[, x]), x.interval)
+      if (!is.null(x.interval)) date.seq <- seq(1, length(data[, x]), floor(x.interval / length(data[, x])))
 
       # generate line chart with date class yearmon
       g <- ggplot(data, aes_string(x = x, y = y, group = group, ymin = ribbon.lwr, ymax = ribbon.upr), environment = environment()) + {
@@ -145,7 +145,7 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
     if (class.x == "yearqtr") {
 
       if (is.null(date.format)) date.format <- "%Y Q%q"
-      if (!is.null(x.interval)) date.seq <- seq(1, length(data[,x]), x.interval)
+      if (!is.null(x.interval)) date.seq <- seq(1, length(data[,x]), floor(x.interval / length(data[,x])))
 
       # generate line chart with date class yearqtr
       g <- ggplot(data, aes_string(x = x, y = y, group = group, ymin = ribbon.lwr, ymax = ribbon.upr), environment = environment()) + {
@@ -172,7 +172,8 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
         if(is.null(group)) {
           date.seq <- seq(1, length(data[,x]), x.interval)
         } else {
-          date.seq <- seq(1, length(split(data[, x], levels(data[, group]))[[1]]), x.interval)
+          date.length <- length(split(data[, x], levels(data[, group]))[[1]])
+          date.seq <- seq(1, date.length, floor(date.length / x.interval))
         }
       }
 

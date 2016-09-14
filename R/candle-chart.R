@@ -19,9 +19,8 @@
 #'              sub.title = NULL, y.title = "prices", enable.Donchian = T, base.size = 14, x.interval = 5)
 #' @export
 
-candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
-                         y.title = NULL, x.title = NULL, x.interval = NULL, 
-                         lwd = 0.2, bar.width = 1,
+candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.title = NULL,
+                         x.title = NULL, x.interval = NULL, lwd = 0.2, bar.width = 1,
                          enable.Donchian = T, dc.window = 10, ...) {
 
   if (na.rm) data <- data[complete.cases(data),]
@@ -60,10 +59,10 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
 
   # configure x-labels
   if (!is.null(x.interval)) {
-      date.seq <- seq(1, length(data$date), x.interval)
+      date.seq <- seq(1, length(data$date), floor(length(data$date) / x.interval))
   }
   date.format <- "%Y-%m-%d"
-  
+
   # creating chart
   g <- ggplot(data, aes(x = date)) +
               geom_linerange(aes(ymin = low, ymax = high), size = lwd) +
@@ -77,7 +76,7 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL,
                 scale_x_date(breaks = data[date.seq, "date"], labels = scales::date_format(date.format), expand = c(.01, .01))} } + {
               if (enable.Donchian) geom_path(aes(y = dc$low), colour = "gray24") } + {
               if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24") } +
-              plot_theme(...) 
+              plot_theme(...)
 
   # Handle special case of drawing a flat bar where OHLC = Open:
   if (any(data$flat_bar, na.rm = T)) {

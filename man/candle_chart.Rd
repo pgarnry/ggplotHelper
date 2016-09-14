@@ -5,8 +5,8 @@
 \title{Function for plotting beautiful candle-charts in ggplot}
 \usage{
 candle_chart(data, na.rm = FALSE, title = NULL, sub.title = NULL,
-  y.title = NULL, x.title = NULL, lwd = 0.2, bar.width = 1,
-  enable.Donchian = T, dc.window = 10, ...)
+  y.title = NULL, x.title = NULL, x.interval = NULL, lwd = 0.2,
+  bar.width = 1, enable.Donchian = T, dc.window = 10, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -21,6 +21,8 @@ before plotting}
 \item{y.title}{character string specifying y-axis title}
 
 \item{x.title}{character string specifying x-axis title}
+
+\item{x.interval}{numeric used to set number of breaks when scaling the x variable}
 
 \item{enable.Donchian}{logical specifying if Donchian channels should be calculated}
 
@@ -37,6 +39,6 @@ n <- 30
 data <- data.frame(open = rnorm(n), high = rnorm(n)+1, low = rnorm(n)-1, close = rnorm(n))
 rownames(data) <- Sys.Date() + 1:n
 candle_chart(data, na.rm = T, title = "Example of candle-chart - might look funny due to random numbers",
-             sub.title = NULL, y.title = "prices", enable.Donchian = T, base.size = 14)
+             sub.title = NULL, y.title = "prices", enable.Donchian = T, base.size = 14, x.interval = 5)
 }
 
