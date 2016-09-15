@@ -6,7 +6,8 @@
 \usage{
 candle_chart(data, na.rm = FALSE, title = NULL, sub.title = NULL,
   y.title = NULL, x.title = NULL, x.interval = NULL, lwd = 0.2,
-  bar.width = 1, enable.Donchian = T, dc.window = 10, ...)
+  bar.width = 1, enable.Donchian = T, dc.window = 10,
+  output.length = NULL, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -26,7 +27,10 @@ before plotting}
 
 \item{enable.Donchian}{logical specifying if Donchian channels should be calculated}
 
-\item{dc.window}{integer specifying the with of the time window used in the Donchian channel calculation}
+\item{dc.window}{integer specifying the with of the time window used in the Donchian
+channel calculation}
+
+\item{output.length}{integer. Specifying the number of output observations}
 }
 \description{
 Function for plotting beautiful candle-charts in ggplot

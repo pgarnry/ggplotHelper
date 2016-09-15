@@ -8,7 +8,9 @@
 #' @param x.title character string specifying x-axis title
 #' @param x.interval numeric used to set number of breaks when scaling the x variable
 #' @param enable.Donchian logical specifying if Donchian channels should be calculated
-#' @param dc.window integer specifying the with of the time window used in the Donchian channel calculation
+#' @param dc.window integer specifying the with of the time window used in the Donchian
+#' channel calculation
+#' @param output.length integer. Specifying the number of output observations
 #' @details
 #' No further comments...
 #' @examples
@@ -21,7 +23,7 @@
 
 candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.title = NULL,
                          x.title = NULL, x.interval = NULL, lwd = 0.2, bar.width = 1,
-                         enable.Donchian = T, dc.window = 10, ...) {
+                         enable.Donchian = T, dc.window = 10, output.length = NULL, ...) {
 
   if (na.rm) data <- data[complete.cases(data),]
 
@@ -57,6 +59,14 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.
     dc <- TTR::DonchianChannel(data[, c("high", "low")], n = dc.window)
   }
 
+  # if output length is not NULL
+  if (!is.null(output.length)) {
+    data <- tail(data, output.length)
+    if (enable.Donchian) {
+      dc <- tail(dc, output.length)
+    }
+  }
+
   # configure x-labels
   if (!is.null(x.interval)) {
       date.seq <- seq(1, length(data$date), floor(length(data$date) / x.interval))
@@ -66,7 +76,7 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.
   # creating chart
   g <- ggplot(data, aes(x = date)) +
               geom_linerange(aes(ymin = low, ymax = high), size = lwd) +
-              geom_rect(aes(xmin = date - width/2 * 0.9, xmax = date + width/2 * 0.9,
+              geom_rect(aes(xmin = date - width / 2 * 0.9, xmax = date + width/2 * 0.9,
                             ymin = pmin(open, close), ymax = pmax(open, close), fill = chg)) +
               guides(fill = FALSE, colour = FALSE) +
               scale_fill_manual(values = c("dn" = "tomato", "up" = "royalblue1")) +
@@ -80,7 +90,7 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.
 
   # Handle special case of drawing a flat bar where OHLC = Open:
   if (any(data$flat_bar, na.rm = T)) {
-    g <- g + geom_segment(data = data[data$flat_bar,],
+    g <- g + geom_segment(data = data[data$flat_bar, ],
                           aes(x = date - width / 2 * 0.9,
                               y = close,
                               yend = close,
