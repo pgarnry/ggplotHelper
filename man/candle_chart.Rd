@@ -6,7 +6,7 @@
 \usage{
 candle_chart(data, na.rm = FALSE, title = NULL, sub.title = NULL,
   y.title = NULL, x.title = NULL, x.interval = NULL, lwd = 0.2,
-  bar.width = 1, enable.Donchian = T, dc.window = 10,
+  bar.width = 1, dc.lines = "both", dc.window = 10,
   output.length = NULL, ...)
 }
 \arguments{
@@ -25,7 +25,8 @@ before plotting}
 
 \item{x.interval}{numeric used to set number of breaks when scaling the x variable}
 
-\item{enable.Donchian}{logical specifying if Donchian channels should be calculated}
+\item{dc.lines}{character specifying if "both", "none", the "high", or the "low" Donchian
+channel line should be used}
 
 \item{dc.window}{integer specifying the with of the time window used in the Donchian
 channel calculation}

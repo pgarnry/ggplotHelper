@@ -7,7 +7,8 @@
 #' @param y.title character string specifying y-axis title
 #' @param x.title character string specifying x-axis title
 #' @param x.interval numeric used to set number of breaks when scaling the x variable
-#' @param enable.Donchian logical specifying if Donchian channels should be calculated
+#' @param dc.lines character specifying if "both", "none", the "high", or the "low" Donchian
+#' channel line should be used
 #' @param dc.window integer specifying the with of the time window used in the Donchian
 #' channel calculation
 #' @param output.length integer. Specifying the number of output observations
@@ -18,12 +19,12 @@
 #' data <- data.frame(open = rnorm(n), high = rnorm(n)+1, low = rnorm(n)-1, close = rnorm(n))
 #' rownames(data) <- Sys.Date() + 1:n
 #' candle_chart(data, na.rm = T, title = "Example of candle-chart - might look funny due to random numbers",
-#'              sub.title = NULL, y.title = "prices", enable.Donchian = T, base.size = 14, x.interval = 5)
+#'              sub.title = NULL, y.title = "prices", dc.lines = "both", base.size = 14, x.interval = 5)
 #' @export
 
 candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.title = NULL,
                          x.title = NULL, x.interval = NULL, lwd = 0.2, bar.width = 1,
-                         enable.Donchian = T, dc.window = 10, output.length = NULL, ...) {
+                         dc.lines = "both", dc.window = 10, output.length = NULL, ...) {
 
   if (na.rm) data <- data[complete.cases(data),]
 
@@ -55,14 +56,14 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.
   data$flat_bar <- data[, "high"] == data[, "low"]
 
   # create Donchian Channels
-  if (enable.Donchian) {
+  if (dc.lines != "none") {
     dc <- TTR::DonchianChannel(data[, c("high", "low")], n = dc.window)
   }
 
   # if output length is not NULL
   if (!is.null(output.length)) {
     data <- tail(data, output.length)
-    if (enable.Donchian) {
+    if (dc.lines != "none") {
       dc <- tail(dc, output.length)
     }
   }
@@ -84,8 +85,8 @@ candle_chart <- function(data, na.rm = FALSE, title = NULL, sub.title = NULL, y.
               labs(x = x.title, y = y.title) + {
               if (is.null(x.interval)) scale_x_date(date_labels = date.format, expand = c(.01, 0)) else {
                 scale_x_date(breaks = data[date.seq, "date"], labels = scales::date_format(date.format), expand = c(.01, .01))} } + {
-              if (enable.Donchian) geom_path(aes(y = dc$low), colour = "gray24") } + {
-              if (enable.Donchian) geom_path(aes(y = dc$high), colour = "gray24") } +
+              if (dc.lines %in% c("both", "low")) geom_path(aes(y = dc$low), colour = "gray24") } + {
+              if (dc.lines %in% c("both", "high")) geom_path(aes(y = dc$high), colour = "gray24") } +
               plot_theme(...)
 
   # Handle special case of drawing a flat bar where OHLC = Open:
