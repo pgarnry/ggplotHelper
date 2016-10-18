@@ -44,6 +44,6 @@ n <- 30
 data <- data.frame(open = rnorm(n), high = rnorm(n)+1, low = rnorm(n)-1, close = rnorm(n))
 rownames(data) <- Sys.Date() + 1:n
 candle_chart(data, na.rm = T, title = "Example of candle-chart - might look funny due to random numbers",
-             sub.title = NULL, y.title = "prices", enable.Donchian = T, base.size = 14, x.interval = 5)
+             sub.title = NULL, y.title = "prices", dc.lines = "both", base.size = 14, x.interval = 5)
 }
 
