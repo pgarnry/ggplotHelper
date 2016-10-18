@@ -4,7 +4,10 @@
 \alias{save_png}
 \title{Save ggplots into multiple png files}
 \usage{
-save_png(...)
+save_png(base.size = 1, ...)
+}
+\arguments{
+\item{numeric.}{Indicates the multiplication factor to the default width (777 pixels) and height (480 pixels)}
 }
 \description{
 This function takes ggplots and save them into png images with fixed size
