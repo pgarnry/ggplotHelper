@@ -93,7 +93,7 @@ density_chart <- function(data, x, group = NULL, title = NULL, sub.title = NULL,
     ggtitle(chart.title) +
     labs(x = x.title, y = y.title) +
     scale_y_continuous(expand = c(.001, 0)) +
-    grey_theme(...)
+    plot_theme(...)
 
   return(g)
 
