@@ -2,17 +2,26 @@
 % Please edit documentation in R/array2df.R
 \name{array2df}
 \alias{array2df}
-\title{Converts a 1D array into a data.frame with a "names" column}
+\title{Converts an array into a data.frame for plotting with ggplotHelper}
 \usage{
-array2df(array.in)
+array2df(array.in, x.yearmon = T)
 }
 \arguments{
-\item{array.in}{one-dimensional array}
+\item{array.in}{array with data for plotting. If the array contains 
+multiple series, these must be ordered column-wise.}
 }
 \description{
-Converts a 1D array into a data.frame with a "names" column
+Converts an array into a data.frame for plotting with ggplotHelper
 }
 \details{
-Returns a dataframe with a "names" column and a "data" column
+Returns a dataframe with a "names" column and a "data" column.
+If the array.in contains multiple columns, these are labeled by a legend
+in the new data frame corresponding to the column name.
+Test:
+array1 <- array(c(1:30), dim = c(10,3), 
+                dimnames = list(paste0("Date", 1:10), paste0("Var", 1:3)))
+ggplotHelper::line_chart(array2df(array1), x = "names", y = "data", 
+                         group = "legend", legend.names = colnames(array1),
+                         legend.position = "top")
 }
 
