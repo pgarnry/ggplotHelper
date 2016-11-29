@@ -6,8 +6,7 @@
 \usage{
 bar_chart(data, y, x, na.rm = FALSE, title = NULL, sub.title = NULL,
   flip = FALSE, y.title = NULL, x.title = NULL, decreasing = NULL,
-  bar.colour.name = NULL, scale.y = NULL, bar.width = NULL,
-  aspect.ratio = 1.61, ...)
+  bar.colour.name = NULL, scale.y = NULL, bar.width = NULL, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -40,7 +39,9 @@ Function for plotting beautiful barcharts in ggplot
 }
 \details{
 The option bar.colour.name allows for multiple bars based on x-axis names to get a different colour.
-If set to NULL all bars will have same default colour.
+If set to NULL all bars will have same default colour. Since ggplot2 version 2.2.0 this has changed
+as the ordering gets complicated when y values contain both positive and negative values. As a result
+bar colouring is only allowed decreasing is set to TRUE.
 
 The scale.y numeric vector has length three and indicates the y-axis limits and break points.
 An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
