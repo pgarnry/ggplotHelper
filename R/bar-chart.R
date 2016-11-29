@@ -66,6 +66,20 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
   # setting colours
   palette <- rep(chart_colours()[1], nrow(data))
 
+  # changing the ordering of y values
+  if (!is.null(decreasing)) {
+    data[, x] <- as.factor(data[, x])
+    if (decreasing) {
+      data[, x] <- reorder(data[, x], data[, y])
+      if (!is.null(bar.colour.name)) {
+        palette[match(bar.colour.name, levels(data[, x]))] <- "#f4a582"
+      }
+    }
+    if (!decreasing) {
+      data[, x] <- reorder(data[, x], -data[, y])
+    }
+  }
+
   # set values for scaling y
   if (!is.null(scale.y)) {
     y.limits <- scale.y[1:2]
@@ -87,66 +101,3 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
 
   return(g)
 }
-
-data(mtcars)
-mtcars$name <- rownames(mtcars)
-
-# adding a negative value and reorder normally - works!
-mtcars$mpg[10] <- -5
-mtcars$name <- reorder(mtcars$name, mtcars$mpg)
-bar.colours <- rep("#4574AF", nrow(mtcars))
-bar.colours[match("Merc 280", levels(mtcars$name))] <- "#FF5733"
-
-ggplot(mtcars, aes_string(x = "name", y = "mpg")) +
-  geom_bar(stat = "identity", fill = bar.colours) +
-  coord_flip()
-
-# if you want to reverse the order...then you have to count values below
-# zero!!
-mtcars$mpg[c(5,15)] <- c(-10, -25)
-mtcars$name <- reorder(mtcars$name, -mtcars$mpg)
-bar.colours <- rep("#4574AF", nrow(mtcars))
-no.neg <- sum(mtcars$mpg < 0)
-bar.colours[match(c("Camaro Z28", "Cadillac Fleetwood"), levels(mtcars$name))] <- "#FF5733"
-bar.colours[c(31, 2)] <- "#FF5733"
-
-ggplot(mtcars, aes_string(x = "name", y = "mpg")) +
-  geom_bar(stat = "identity", fill = bar.colours) +
-  coord_flip()
-
-# if negative values and decreasing = FALSE
-# nrow(data) - match number + 1
-
-
-# adding another negative value (from 1 to 2) and recount number of neg values
-mtcars$mpg[20] <- -10
-mtcars$name <- reorder(mtcars$name, -mtcars$mpg)
-bar.colours <- rep("#4574AF", nrow(mtcars))
-no.neg <- sum(mtcars$mpg < 0)
-bar.colours[match("Duster 360", levels(mtcars$name)) + no.neg] <- "#FF5733"
-
-ggplot(mtcars, aes_string(x = "name", y = "mpg")) +
-  geom_bar(stat = "identity", fill = bar.colours) +
-  coord_flip()
-
-# multiple bar colours...
-bar.colours <- rep("#4574AF", nrow(mtcars))
-bar.colours[match(c("Duster 360", "Datsun 710"), levels(mtcars$name)) + no.neg] <- "#FF5733"
-
-ggplot(mtcars, aes_string(x = "name", y = "mpg")) +
-  geom_bar(stat = "identity", fill = bar.colours) +
-  coord_flip()
-
-# what if the order is flipped again? Doesn't work when reorder normally
-mtcars$name <- reorder(mtcars$name, mtcars$mpg)
-bar.colours <- rep("#4574AF", nrow(mtcars))
-bar.colours[match(c("Duster 360", "Datsun 710"), levels(mtcars$name)) + no.neg] <- "#FF5733"
-
-ggplot(mtcars, aes_string(x = "name", y = "mpg")) +
-  geom_bar(stat = "identity", fill = bar.colours) +
-  coord_flip()
-
-# CONCLUSION: when decreasing is set to FALSE the number of negative values
-# have to be counted and added to the x-value (factor) position of the names
-# that you want to colour
-
