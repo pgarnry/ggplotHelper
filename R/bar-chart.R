@@ -11,18 +11,14 @@
 #' @param x.title character string specifying x-axis title
 #' @param decreasing logical indicating whether y values should be ordered and in which direction
 #' @param bar.colour.name character string indicating which bars to be coloured based on x names (see details)
-#' @param scale.y numeric vector with length three providing y-axis limits (min and max) and breaks (see details)
+#' @param y.lim numeric vector with length two providing y-axis limits (min and max)
+#' @param y.breaks numeric vector specifying where ticks appear
 #' @details
 #' The option bar.colour.name allows for multiple bars based on x-axis names to get a different colour.
 #' If set to NULL all bars will have same default colour. Since ggplot2 version 2.2.0 this has changed
 #' as the ordering gets complicated when y values contain both positive and negative values. As a result
 #' bar colouring is only allowed decreasing is set to TRUE.
 #'
-#' The scale.y numeric vector has length three and indicates the y-axis limits and break points.
-#' An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
-#' maximum value of 60 with breaks for every 10 between the minimum and maximum values.
-#'
-#' Otherwise see example for clarification on the scale.y variable.
 #' @examples
 #' data(mtcars)
 #' mtcars$name <- rownames(mtcars)
@@ -35,7 +31,7 @@
 bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
                       sub.title = NULL, flip = FALSE, y.title = NULL,
                       x.title = NULL, decreasing = NULL, bar.colour.name = NULL,
-                      scale.y = NULL, bar.width = NULL, ...) {
+                      y.lim = NULL, y.breaks = NULL, bar.width = NULL, ...) {
 
   # stop if input object is not a data.frame and x and y variables not specified
   if (!is.data.frame(data)) stop("Input object has to be data.frame")
@@ -80,13 +76,9 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
     }
   }
 
-  # set values for scaling y
-  if (!is.null(scale.y)) {
-    y.limits <- scale.y[1:2]
-    y.breaks <- seq(scale.y[1], scale.y[2], scale.y[3])
-    scale.y <- TRUE
-  } else {
-    scale.y <- FALSE
+  # set values for breaks on y-scale if not set in option
+  if (is.null(y.breaks)) {
+    y.breaks <- waiver()
   }
 
   # creating chart
@@ -94,8 +86,8 @@ bar_chart <- function(data, y, x, na.rm = FALSE, title = NULL,
               geom_bar(stat = "identity", fill = palette, width = bar.width) +
               ggtitle(chart.title) +
               labs(x = x.title, y = y.title) +
-              plot_theme(...) + {
-              if (scale.y) scale_y_continuous(limits = y.limits, breaks = y.breaks)} + {
+              plot_theme(...) +
+              scale_y_continuous(limits = y.lim, breaks = y.breaks, expand = c(0.01, 0)) + {
               if (flip) coord_flip()} + {
               if (flip) theme(panel.grid.major.y = element_blank()) else theme(panel.grid.major.x = element_blank())}
 

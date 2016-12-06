@@ -6,7 +6,8 @@
 \usage{
 bar_chart(data, y, x, na.rm = FALSE, title = NULL, sub.title = NULL,
   flip = FALSE, y.title = NULL, x.title = NULL, decreasing = NULL,
-  bar.colour.name = NULL, scale.y = NULL, bar.width = NULL, ...)
+  bar.colour.name = NULL, y.lim = NULL, y.breaks = NULL,
+  bar.width = NULL, ...)
 }
 \arguments{
 \item{data}{data frame containing data for plotting}
@@ -32,7 +33,9 @@ before the computation proceeds}
 
 \item{bar.colour.name}{character string indicating which bars to be coloured based on x names (see details)}
 
-\item{scale.y}{numeric vector with length three providing y-axis limits (min and max) and breaks (see details)}
+\item{y.lim}{numeric vector with length two providing y-axis limits (min and max)}
+
+\item{y.breaks}{numeric vector specifying where ticks appear}
 }
 \description{
 Function for plotting beautiful barcharts in ggplot
@@ -42,12 +45,6 @@ The option bar.colour.name allows for multiple bars based on x-axis names to get
 If set to NULL all bars will have same default colour. Since ggplot2 version 2.2.0 this has changed
 as the ordering gets complicated when y values contain both positive and negative values. As a result
 bar colouring is only allowed decreasing is set to TRUE.
-
-The scale.y numeric vector has length three and indicates the y-axis limits and break points.
-An input vector of c(0, 60, 10) would translate into y-axis with minimum value at 0 and
-maximum value of 60 with breaks for every 10 between the minimum and maximum values.
-
-Otherwise see example for clarification on the scale.y variable.
 }
 \examples{
 data(mtcars)

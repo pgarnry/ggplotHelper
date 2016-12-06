@@ -56,7 +56,7 @@ plot_theme <- function(legend.position = "bottom", base.size = 10,
   # Set title and axis labels, and format these and tick marks
   theme(plot.title    = element_text(color = color.title, size = rel(1.6), vjust = 0.5, hjust = 0.5)) +
   theme(axis.text.x   = element_text(size = rel(1), color = color.axis.text)) +
-  theme(axis.text.y   = element_text(size = rel(1), color = color.axis.text, margin = margin(c(0, -15, 0, 0)))) +
+  theme(axis.text.y   = element_text(size = rel(1), color = color.axis.text)) +
   theme(axis.title.x  = element_text(size = rel(1.2), color = color.axis.title, hjust = 0.5)) +
   theme(axis.title.y  = element_text(size = rel(1.2), color = color.axis.title, vjust = 0.5)) +
 
