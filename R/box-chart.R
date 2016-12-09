@@ -69,7 +69,7 @@ box_chart <- function(data, y, x = NULL, title = NULL, sub.title = NULL,
     scale_y_continuous(limits = c(min.lim, max.lim)) +
     ggtitle(chart.title) +
     labs(x = x.title, y = y.title) +
-    grey_theme(...) + {
+    plot_theme(...) + {
       if (x == 0) theme(axis.text.x = element_blank())
     } + {
       if (flip) coord_flip()
