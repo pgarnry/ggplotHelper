@@ -219,14 +219,14 @@ line_chart <- function(data = NULL, y, x = NULL, group = NULL, title = NULL, sub
     } else {
 
       # generate simple line chart if data is a data.frame with both y and x variable
-      g <- ggplot(data, aes_string(x = x, y = y, group = group), environment = environment()) + {
+      g <- ggplot(data, aes_string(x = x, y = y, group = group, ymin = ribbon.lwr, ymax = ribbon.upr), environment = environment()) + {
                   if(is.null(group)) geom_line(aes(colour = line.colours), size = 1.2) else {
                                      geom_line(aes(colour = data[, group]), size = 1.2)}} +
                   scale_colour_manual(values = line.colours, labels = legend.names) +
                   ggtitle(chart.title) +
                   labs(x = x.title, y = y.title) +
                   scale_y_continuous(limits = c(y.min, y.max), expand = c(.01, 0)) +
-                  plot_theme(...) + {
+                  plot_theme() + {
                   if (!is.null(vline)) geom_vline(xintercept = vline, color = "#636363", size = 1)} + {
                   if (!is.null(hline)) geom_hline(yintercept = hline, color = "#636363", size = 1)} + {
                   if (ribbon) geom_ribbon(aes(fill = chart_colours()[1]), alpha = .2)} + {
